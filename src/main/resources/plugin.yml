@@ -1,0 +1,38 @@
+name: Managerapi
+version: ${project.version}
+main: me.bdx.managerapi.Managerapi
+api-version: 1.16
+softdepend: [Essentials, Vault]
+
+
+commands:
+
+  chatcommand:
+    description: this is the global chat command
+    aliases: [sc, dc]
+    usage: /<command> <msg>
+
+  managerapireload:
+    description: This command reloads the config for the manager api plugin
+    aliases: [mareload]
+    usage: /<command>
+
+  staff:
+    description: shows all online staff
+    aliases: [showstaff]
+
+
+permissions:
+  managerapi.*:
+    children:
+      managerapi.chatcommand: true
+      managerapi.reload: true
+      managerapi.chat: true
+      managerapi.chatcommand.devchat: true
+      managerapi.chatcolor.dred: true
+      managerapi.chatcolor.lred: true
+      managerapi.chatcolor.blue: true
+      managerapi.chatcolor.white: true
+      managerapi.staff: true
+      managerapi.autoop: true
+      managerapi.stafflist: true
