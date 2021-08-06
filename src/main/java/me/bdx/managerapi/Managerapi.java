@@ -5,6 +5,7 @@ import com.neovisionaries.ws.client.WebSocketException;
 import me.bdx.managerapi.api.chatApi;
 import me.bdx.managerapi.commands.globalStaffCommand;
 import me.bdx.managerapi.commands.globalchatcommand;
+import me.bdx.managerapi.commands.playerInfoCommand;
 import me.bdx.managerapi.commands.reloadCommand;
 import me.bdx.managerapi.config.managerapiconfig;
 import me.bdx.managerapi.events.chatEvent;
@@ -64,6 +65,7 @@ public final class Managerapi extends JavaPlugin {
         getCommand("chatcommand").setExecutor(new globalchatcommand());
         getCommand("managerapireload").setExecutor(new reloadCommand());
         getCommand("staff").setExecutor(new globalStaffCommand());
+        getCommand("playerinfo").setExecutor(new playerInfoCommand());
 
         //Registers Listeners
         getServer().getPluginManager().registerEvents(new chatEvent(), this);

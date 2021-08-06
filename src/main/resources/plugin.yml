@@ -21,6 +21,10 @@ commands:
     description: shows all online staff
     aliases: [showstaff]
 
+  playerinfo:
+    description: Shows info of a given player
+    aliases: [pinfo, userinfo, user]
+
 
 permissions:
   managerapi.*:
@@ -36,3 +40,4 @@ permissions:
       managerapi.staff: true
       managerapi.autoop: true
       managerapi.stafflist: true
+      managerapi.player.info: true
