@@ -9,7 +9,9 @@ import me.bdx.managerapi.events.chatEvent;
 import me.bdx.managerapi.events.joinEvent;
 import me.bdx.managerapi.events.leaveEvent;
 import me.bdx.managerapi.statusControls.chatStatus;
+import me.bdx.managerapi.tabcomplete.globalchatStatusTabComplete;
 import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
@@ -23,6 +25,7 @@ public final class Managerapi extends JavaPlugin {
 
     public static Essentials essentials;
     public static Chat chat;
+    public static Permission permission;
 
     @Override
     public void onEnable() {
@@ -40,9 +43,16 @@ public final class Managerapi extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
         }
 
+        //Gets the Vault Chat dependency
         RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
         if (rsp != null) {
             chat = rsp.getProvider();
+        }
+
+        //Gets the Vault Permission dependency
+        RegisteredServiceProvider<Permission> rsp2 = getServer().getServicesManager().getRegistration(Permission.class);
+        if (rsp2 != null) {
+            permission = rsp2.getProvider();
         }
 
         //Sets up the config files for the plugin
@@ -73,6 +83,9 @@ public final class Managerapi extends JavaPlugin {
         getCommand("staff").setExecutor(new globalStaffCommand());
         getCommand("playerinfo").setExecutor(new playerInfoCommand());
         getCommand("gchat").setExecutor(new globalChatStatusCommand());
+
+        //assigns the tab complete classes
+        getCommand("gchat").setTabCompleter(new globalchatStatusTabComplete());
 
         //Registers Listeners
         getServer().getPluginManager().registerEvents(new chatEvent(), this);

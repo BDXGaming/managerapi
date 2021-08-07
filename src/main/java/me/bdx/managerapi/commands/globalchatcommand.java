@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import me.bdx.managerapi.statusControls.chatStatus;
 import me.bdx.managerapi.commands.globalchatcommand;
 import me.bdx.managerapi.config.managerapiconfig;
 
@@ -47,52 +48,63 @@ public class globalchatcommand implements CommandExecutor {
 
         if(label.equalsIgnoreCase("sc")){
 
-            if(sender.hasPermission("managerapi.chatcommand")){
+            if(chatStatus.getStaffChatStatus()){
+                if(sender.hasPermission("managerapi.chatcommand")){
 
-                Player p = (Player)sender;
+                    Player p = (Player)sender;
 
-                StringBuilder msg = new StringBuilder();
+                    StringBuilder msg = new StringBuilder();
 
-                for(String word: args){
-                    msg.append(word + " ");
-                }
-
-
-                try {
-                    chatApi.sendMsg(p, msg.toString(), "chat-"+label, label);
-
-                    for(Player player: Bukkit.getServer().getOnlinePlayers()){
-
-                        if(player.hasPermission("managerapi.chatcommand")){
-                            player.sendMessage(ChatColor.GRAY +"(/"+ label+ ") " +"[" +managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + ChatColor.LIGHT_PURPLE + msg);
-                        }
-
+                    for(String word: args){
+                        msg.append(word + " ");
                     }
 
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    try {
+                        chatApi.sendMsg(p, msg.toString(), "chat-"+label, label);
 
+                        for(Player player: Bukkit.getServer().getOnlinePlayers()){
+
+                            if(player.hasPermission("managerapi.chatcommand")){
+                                player.sendMessage(ChatColor.GRAY +"(/"+ label+ ") " +"[" +managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + ChatColor.LIGHT_PURPLE + msg);
+                            }
+
+                        }
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    return true;
+                }
+                else{
+                    sender.sendMessage(ChatColor.RED + "You do not have the required permissions to use this command!");
+                }
+            }else{
+                sender.sendMessage(ChatColor.RED + "StaffChat is currently disabled!");
                 return true;
             }
-            else{
-                sender.sendMessage(ChatColor.RED + "You do not have the required permissions to use this command!");
-            }
+
         }
 
         else if (label.equalsIgnoreCase("dc")){
 
-            if(sender.hasPermission("managerapi.chatcommand.devchat")){
+            if(chatStatus.getDevChatStatus()){
+                if(sender.hasPermission("managerapi.chatcommand.devchat")){
 
-                Player p = (Player)sender;
+                    Player p = (Player)sender;
 
-                prepMsg(p, label, args);
+                    prepMsg(p, label, args);
 
-                return true;
-            }
-            else{
-                sender.sendMessage(ChatColor.RED + "You do not have the required permissions to use this command!");
+                    return true;
+                }
+                else{
+                    sender.sendMessage(ChatColor.RED + "You do not have the required permissions to use this command!");
+                    return true;
+                }
+            }else{
+                sender.sendMessage(ChatColor.RED + "DevChat is currently disabled!");
                 return true;
             }
         }
@@ -101,7 +113,6 @@ public class globalchatcommand implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "Please use one of the labeled chats!");
             return true;
         }
-
 
         return false;
     }
