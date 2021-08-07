@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import me.bdx.managerapi.statusControls.chatStatus;
 
 public class chatEvent implements Listener {
 
@@ -54,11 +55,24 @@ public class chatEvent implements Listener {
                         c = ChatColor.GRAY;
                     }
 
-                    player.sendMessage(ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + c + msg);
+                    if(!chatStatus.getOutgoingChatStatus()){
+
+                        if(p.hasPermission("managerapi.chat.bypass")){
+                            player.sendMessage(ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + c + msg);
+                        }
+                        else{
+                            p.sendMessage(ChatColor.RED + "Chat is currently disabled!");
+                            break;
+                        }
+
+                    }
+                    else{
+                        player.sendMessage(ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + c + msg);
+                    }
+
                 }
 
             }
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,8 +83,10 @@ public class chatEvent implements Listener {
     @EventHandler
     public void onChatEvent(AsyncPlayerChatEvent chatEvent){
 
-        chatEvent.setCancelled(true);
-        prepMsg(chatEvent.getPlayer(), "g", chatEvent.getMessage());
+        if(chatStatus.getGlobalStatus()){
+            chatEvent.setCancelled(true);
+            prepMsg(chatEvent.getPlayer(), "g", chatEvent.getMessage());
+        }
 
     }
 }

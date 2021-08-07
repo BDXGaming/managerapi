@@ -3,14 +3,12 @@ package me.bdx.managerapi;
 import com.earth2me.essentials.Essentials;
 import com.neovisionaries.ws.client.WebSocketException;
 import me.bdx.managerapi.api.chatApi;
-import me.bdx.managerapi.commands.globalStaffCommand;
-import me.bdx.managerapi.commands.globalchatcommand;
-import me.bdx.managerapi.commands.playerInfoCommand;
-import me.bdx.managerapi.commands.reloadCommand;
+import me.bdx.managerapi.commands.*;
 import me.bdx.managerapi.config.managerapiconfig;
 import me.bdx.managerapi.events.chatEvent;
 import me.bdx.managerapi.events.joinEvent;
 import me.bdx.managerapi.events.leaveEvent;
+import me.bdx.managerapi.statusControls.chatStatus;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -51,8 +49,16 @@ public final class Managerapi extends JavaPlugin {
         managerapiconfig.setup();
         managerapiconfig.get().addDefault("server-name", "Server");
         managerapiconfig.get().addDefault("api-address", "ws://192.168.0.140:5000");
+        managerapiconfig.get().addDefault("globalChatStatus", true);
+        managerapiconfig.get().addDefault("staffChatStatus", true);
+        managerapiconfig.get().addDefault("devChatStatus", true);
+        managerapiconfig.get().addDefault("incomingChatStatus", true);
+        managerapiconfig.get().addDefault("outgoingChatStatus", true);
         managerapiconfig.get().options().copyDefaults(true);
         managerapiconfig.save();
+
+        //Loads the chatStatus values from the config
+        chatStatus.loadFromConfig();
 
         //Creates the API connection for the chat system
         try {
@@ -66,6 +72,7 @@ public final class Managerapi extends JavaPlugin {
         getCommand("managerapireload").setExecutor(new reloadCommand());
         getCommand("staff").setExecutor(new globalStaffCommand());
         getCommand("playerinfo").setExecutor(new playerInfoCommand());
+        getCommand("gchat").setExecutor(new globalChatStatusCommand());
 
         //Registers Listeners
         getServer().getPluginManager().registerEvents(new chatEvent(), this);
@@ -83,8 +90,10 @@ public final class Managerapi extends JavaPlugin {
 
         //Closes the API connection
         chatApi.closeConn();
+        Bukkit.getServer().getConsoleSender().sendMessage("[ManagerAPI]: Connection Terminated!");
 
     }
+
 
     public static Chat getChat() {
         return chat;

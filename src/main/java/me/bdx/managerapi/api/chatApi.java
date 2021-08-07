@@ -137,6 +137,7 @@ public class chatApi {
     }
 
     public static void closeConn(){
+        ws.sendClose();
         ws.disconnect();
     }
 

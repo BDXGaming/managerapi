@@ -25,6 +25,10 @@ commands:
     description: Shows info of a given player
     aliases: [pinfo, userinfo, user]
 
+  gchat:
+    description: Options on enabling and disabling chat
+    aliases: [globalchat]
+
 
 permissions:
   managerapi.*:
@@ -41,3 +45,4 @@ permissions:
       managerapi.autoop: true
       managerapi.stafflist: true
       managerapi.player.info: true
+      managerapi.chat.bypass: true
