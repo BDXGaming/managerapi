@@ -14,6 +14,12 @@ import me.bdx.managerapi.config.managerapiconfig;
 
 public class globalchatcommand implements CommandExecutor {
 
+    /**
+     * Sends the DevChat Messages
+     * @param p Player
+     * @param label String
+     * @param args String[]
+     */
     public void prepMsg(Player p, String label, String[] args){
 
         StringBuilder msg = new StringBuilder();

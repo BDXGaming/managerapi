@@ -15,6 +15,9 @@ import java.util.HashMap;
 
 public class globalStaffCommand implements CommandExecutor {
 
+    /**
+     * Updates the staff list for the server
+     */
     public static void refreshStaff(){
 
         for(Player p: Bukkit.getServer().getOnlinePlayers()){
@@ -97,7 +100,7 @@ public class globalStaffCommand implements CommandExecutor {
 
                         resp += "\n    &r&e" + key;
                         resp += sortedStaff.get(key);
-                        resp += "\n ";
+                        resp += "\n  ";
                     }
                 }
                 else{
