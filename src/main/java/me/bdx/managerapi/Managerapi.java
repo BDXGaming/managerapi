@@ -17,6 +17,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.units.qual.N;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -26,12 +27,15 @@ public final class Managerapi extends JavaPlugin {
     public static Essentials essentials;
     public static Chat chat;
     public static Permission permission;
+    public static Managerapi managerapi;
 
     @Override
     public void onEnable() {
 
         //Hooks into the essentials plugin
         Plugin essentialsPlugin = Bukkit.getPluginManager().getPlugin("Essentials");
+
+        managerapi = this;
 
         if (essentialsPlugin.isEnabled() && (essentialsPlugin instanceof Essentials)) {
             essentials = (Essentials) essentialsPlugin;
@@ -55,17 +59,21 @@ public final class Managerapi extends JavaPlugin {
             permission = rsp2.getProvider();
         }
 
+        int[] coords = {0,0,0};
+
         //Sets up the config files for the plugin
         managerapiconfig.setup();
-        managerapiconfig.get().addDefault("server-name", "Server");
-        managerapiconfig.get().addDefault("api-address", "ws://192.168.0.140:5000");
-        managerapiconfig.get().addDefault("globalChatStatus", true);
-        managerapiconfig.get().addDefault("staffChatStatus", true);
-        managerapiconfig.get().addDefault("devChatStatus", true);
-        managerapiconfig.get().addDefault("incomingChatStatus", true);
-        managerapiconfig.get().addDefault("outgoingChatStatus", true);
-        managerapiconfig.get().options().copyDefaults(true);
-        managerapiconfig.save();
+//        managerapiconfig.get().addDefault("server-name", "Server");
+//        managerapiconfig.get().addDefault("api-address", "ws://192.168.0.140:5000");
+//        managerapiconfig.get().addDefault("globalChatStatus", true);
+//        managerapiconfig.get().addDefault("staffChatStatus", true);
+//        managerapiconfig.get().addDefault("devChatStatus", true);
+//        managerapiconfig.get().addDefault("incomingChatStatus", true);
+//        managerapiconfig.get().addDefault("outgoingChatStatus", true);
+//        managerapiconfig.get().addDefault("SpawnOnJoin", false);
+//        managerapiconfig.get().addDefault("spawnCoords", coords);
+//        managerapiconfig.get().options().copyDefaults(true);
+//        managerapiconfig.save();
 
         //Loads the chatStatus values from the config
         chatStatus.loadFromConfig();
@@ -96,6 +104,7 @@ public final class Managerapi extends JavaPlugin {
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[ManagerApi]: The Plugin is online");
 
     }
+
 
     @Override
     public void onDisable() {

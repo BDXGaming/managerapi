@@ -1,0 +1,24 @@
+# __  __                                          _____ _____
+#|  \/  |                                   /\   |  __ |_   _|
+#| \  / | __ _ _ __   __ _  __ _  ___ _ __ /  \  | |__) || |
+#| |\/| |/ _` | '_ \ / _` |/ _` |/ _ | '__/ /\ \ |  ___/ | |
+#| |  | | (_| | | | | (_| | (_| |  __| | / ____ \| |    _| |_
+#|_|  |_|\__,_|_| |_|\__,_|\__, |\___|_|/_/    \_|_|   |_____|
+#---------------------------__/ |-----------------------------
+#--------------------------|___/ -----------------------------
+#-------------------------------------------------------------
+
+#Below are the API Config Options
+#The server-name is the name that will be used for the API
+#The api-address is the ip-address of the websocket server
+server-name: Server
+api-address: ws://192.168.0.140:5000
+
+#These are the status indicators for the various chats made by the plugin
+#The incoming and outgoing status applies ONLY for globalchat
+#To toggle either /dc or /sc set the staff or dev chats to false
+globalChatStatus: true
+staffChatStatus: true
+devChatStatus: true
+incomingChatStatus: true
+outgoingChatStatus: true

@@ -1,5 +1,6 @@
 package me.bdx.managerapi.config;
 
+import me.bdx.managerapi.Managerapi;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,16 +16,10 @@ public class managerapiconfig {
 
     //Finds or generates config file thing
     public static void setup(){
-        file = new File(Bukkit.getServer().getPluginManager().getPlugin("managerapi").getDataFolder(), "config.yml");
 
-        if(!(file.exists())){
-            try{
-                file.createNewFile();
-            }catch (IOException e){
-                System.out.println(ChatColor.YELLOW + "[ManagerApi]: "+ e.toString());
-            }
-        }
-        customfile = YamlConfiguration.loadConfiguration(file);
+        Managerapi.managerapi.saveDefaultConfig();
+
+        customfile = Managerapi.managerapi.getConfig();
     }
 
     public static FileConfiguration get(){
@@ -40,6 +35,7 @@ public class managerapiconfig {
     }
 
     public static void reload(){
+        file = new File(Bukkit.getServer().getPluginManager().getPlugin("managerapi").getDataFolder(), "config.yml");
         customfile = YamlConfiguration.loadConfiguration(file);
     }
 
