@@ -75,7 +75,7 @@ public class apiResponseHandler {
                             }
 
 
-                            p.sendMessage(ChatColor.GRAY+"["+response.getString("server-name")+"] "+response.getString("playerDisplayName") + ": " + c + response.getString("content"));
+                            p.sendMessage(ChatColor.GRAY+"["+response.getString("server-name")+"] "+ChatColor.translateAlternateColorCodes('&',response.getString("playerDisplayName")) + ": " + c + response.getString("content"));
                         }
 
                     }
