@@ -55,6 +55,34 @@ public class globalchatcommand implements CommandExecutor {
         if(label.equalsIgnoreCase("sc")){
 
             if(chatStatus.getStaffChatStatus()){
+
+                if(!(sender instanceof Player)){
+
+                    StringBuilder msg = new StringBuilder();
+
+                    for(String word: args){
+                        msg.append(word + " ");
+                    }
+
+                    try {
+                        chatApi.sendConMsg("Console", msg.toString(),"chat-"+label, label, "lred");
+
+                        for(Player player: Bukkit.getServer().getOnlinePlayers()){
+
+                            if(player.hasPermission("managerapi.chatcommand")){
+                                player.sendMessage(ChatColor.GRAY +"(/"+ label+ ") " +"[" +managerapiconfig.get().getString("server-name")+"] " + ChatColor.WHITE+ "Console" + ": " + ChatColor.LIGHT_PURPLE + msg);
+                            }
+
+                        }
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    return true;
+                }
+
                 if(sender.hasPermission("managerapi.chatcommand")){
 
                     Player p = (Player)sender;

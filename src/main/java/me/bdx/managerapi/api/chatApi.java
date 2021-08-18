@@ -68,6 +68,25 @@ public class chatApi {
 
     }
 
+    public static void sendConMsg(String sender, String msg, String type, String label, String chatcolor) throws Exception
+    {
+
+        String jsonMsg = new JSONObject()
+                .put("playerDisplayName", sender)
+                .put("playerRealName", sender)
+                .put("playerUUID", sender)
+                .put("server-name", managerapiconfig.get().getString("server-name"))
+                .put("chat-label", label)
+                .put("type", type)
+                .put("content", msg)
+                .put("chatColor", chatcolor)
+                .toString();
+
+
+        ws.sendText(jsonMsg);
+
+    }
+
     public static void requestStaff() throws JSONException {
         String jsonMsg = new JSONObject()
                 .put("type", "getStaff")
