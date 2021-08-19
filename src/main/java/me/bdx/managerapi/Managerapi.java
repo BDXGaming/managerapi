@@ -63,17 +63,6 @@ public final class Managerapi extends JavaPlugin {
 
         //Sets up the config files for the plugin
         managerapiconfig.setup();
-//        managerapiconfig.get().addDefault("server-name", "Server");
-//        managerapiconfig.get().addDefault("api-address", "ws://192.168.0.140:5000");
-//        managerapiconfig.get().addDefault("globalChatStatus", true);
-//        managerapiconfig.get().addDefault("staffChatStatus", true);
-//        managerapiconfig.get().addDefault("devChatStatus", true);
-//        managerapiconfig.get().addDefault("incomingChatStatus", true);
-//        managerapiconfig.get().addDefault("outgoingChatStatus", true);
-//        managerapiconfig.get().addDefault("SpawnOnJoin", false);
-//        managerapiconfig.get().addDefault("spawnCoords", coords);
-//        managerapiconfig.get().options().copyDefaults(true);
-//        managerapiconfig.save();
 
         //Loads the chatStatus values from the config
         chatStatus.loadFromConfig();
