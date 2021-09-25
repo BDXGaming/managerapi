@@ -6,6 +6,7 @@ import me.bdx.managerapi.api.chatApi;
 import me.bdx.managerapi.commands.*;
 import me.bdx.managerapi.config.managerapiconfig;
 import me.bdx.managerapi.events.chatEvent;
+import me.bdx.managerapi.events.commandEvent;
 import me.bdx.managerapi.events.joinEvent;
 import me.bdx.managerapi.events.leaveEvent;
 import me.bdx.managerapi.statusControls.chatStatus;
@@ -88,6 +89,7 @@ public final class Managerapi extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new chatEvent(), this);
         getServer().getPluginManager().registerEvents(new joinEvent(), this);
         getServer().getPluginManager().registerEvents(new leaveEvent(), this);
+        getServer().getPluginManager().registerEvents(new commandEvent(),this);
 
         //Prints to console that the plugin is online
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[ManagerApi]: The Plugin is online");

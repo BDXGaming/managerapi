@@ -123,6 +123,20 @@ public class chatApi {
 
     }
 
+    public static void updateStaff(Player staff, boolean vanishState) throws JSONException {
+
+        String jsonMsg = new JSONObject()
+                .put("staffDisplayName", Managerapi.chat.getPlayerPrefix(staff).toString() + staff.getName())
+                .put("staffRealName", staff.getName())
+                .put("server", managerapiconfig.get().getString("server-name"))
+                .put("vanishState", vanishState)
+                .put("type", "addStaff")
+                .toString();
+
+        ws.sendText(jsonMsg);
+
+    }
+
 
     /**
      * Connect to the server.
@@ -156,8 +170,13 @@ public class chatApi {
     }
 
     public static void closeConn(){
-        ws.sendClose();
-        ws.disconnect();
+        try{
+            ws.sendClose();
+            ws.disconnect();
+        }catch (NullPointerException e){
+            Bukkit.getLogger().warning("Unable to disconnect from websocket!");
+        }
+
     }
 
 
