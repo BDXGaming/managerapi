@@ -22,14 +22,7 @@ public class apiResponseHandler {
             if(response.getString("type").equalsIgnoreCase("chat-sc")){
 
                 if(chatStatus.getStaffChatStatus()){
-                    for(Player p: Bukkit.getServer().getOnlinePlayers()){
-
-                        if(p.hasPermission("managerapi.chatcommand")){
-
-                            p.sendMessage(ChatColor.GRAY+"(/"+response.getString("chat-label")+") "+"["+response.getString("server-name")+"] "+response.getString("playerDisplayName") + ": " + ChatColor.LIGHT_PURPLE + response.getString("content"));
-                        }
-
-                    }
+                    Bukkit.broadcast(ChatColor.GRAY+"(/"+response.getString("chat-label")+") "+"["+response.getString("server-name")+"] "+response.getString("playerDisplayName") + ": " + ChatColor.LIGHT_PURPLE + response.getString("content"), "managerapi.chatcommand");
                 }
 
             }
@@ -37,14 +30,7 @@ public class apiResponseHandler {
             else if(response.getString("type").equalsIgnoreCase("chat-dc")){
 
                 if(chatStatus.getDevChatStatus()){
-                    for(Player p: Bukkit.getServer().getOnlinePlayers()){
-
-                        if(p.hasPermission("managerapi.chatcommand.devchat")){
-
-                            p.sendMessage(ChatColor.GRAY+"(/"+response.getString("chat-label")+") "+"["+response.getString("server-name")+"] "+response.getString("playerDisplayName") + ": " + ChatColor.LIGHT_PURPLE + response.getString("content"));
-                        }
-
-                    }
+                    Bukkit.broadcast(ChatColor.GRAY+"(/"+response.getString("chat-label")+") "+"["+response.getString("server-name")+"] "+response.getString("playerDisplayName") + ": " + ChatColor.LIGHT_PURPLE + response.getString("content"), "managerapi.chatcommand.devchat");
                 }
 
 
@@ -52,34 +38,26 @@ public class apiResponseHandler {
 
             else if(response.getString("type").equalsIgnoreCase("chat-g")){
 
-                if((chatStatus.getGlobalStatus()) && chatStatus.getIncomingChatStatus() == true){
-                    for(Player p: Bukkit.getServer().getOnlinePlayers()){
+                if((chatStatus.getGlobalStatus()) && chatStatus.getIncomingChatStatus()){
 
-                        if(p.hasPermission("managerapi.chat")){
+                    ChatColor c;
 
-                            ChatColor c;
+                    String chatcolor = response.getString("chatColor");
 
-                            String chatcolor = response.getString("chatColor");
-
-                            if(chatcolor.equalsIgnoreCase("dred")){
-                                c = ChatColor.DARK_RED;
-                            }else if (chatcolor.equalsIgnoreCase("lred")){
-                                c = ChatColor.RED;
-                            }else if(chatcolor.equalsIgnoreCase("blue")){
-                                c = ChatColor.AQUA;
-                            }
-                            else if (chatcolor.equalsIgnoreCase("white")){
-                                c = ChatColor.WHITE;
-                            }else{
-                                c = ChatColor.GRAY;
-                            }
-
-
-                            p.sendMessage(ChatColor.GRAY+"["+response.getString("server-name")+"] "+ChatColor.translateAlternateColorCodes('&',response.getString("playerDisplayName")) + ": " + c + response.getString("content"));
-                        }
-
+                    if(chatcolor.equalsIgnoreCase("dred")){
+                        c = ChatColor.DARK_RED;
+                    }else if (chatcolor.equalsIgnoreCase("lred")){
+                        c = ChatColor.RED;
+                    }else if(chatcolor.equalsIgnoreCase("blue")){
+                        c = ChatColor.AQUA;
+                    }
+                    else if (chatcolor.equalsIgnoreCase("white")){
+                        c = ChatColor.WHITE;
+                    }else{
+                        c = ChatColor.GRAY;
                     }
 
+                    Bukkit.broadcast(ChatColor.GRAY+"["+response.getString("server-name")+"] "+ChatColor.translateAlternateColorCodes('&',response.getString("playerDisplayName")) + ": " + c + response.getString("content"), "managerapi.chat");
                 }
 
 
