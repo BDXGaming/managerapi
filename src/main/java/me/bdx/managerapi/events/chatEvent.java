@@ -32,46 +32,33 @@ public class chatEvent implements Listener {
             chatcolor = "grey";
         }
 
-
         try {
-            chatApi.sendMsg(p, msg, "chat-"+label, label, chatcolor);
 
-            for(Player player: Bukkit.getServer().getOnlinePlayers()){
+            ChatColor c;
 
-                if(player.hasPermission("managerapi.chat")){
+            if(chatcolor.equalsIgnoreCase("dred")){
+                c = ChatColor.DARK_RED;
+            }else if (chatcolor.equalsIgnoreCase("lred")){
+                c = ChatColor.RED;
+            }else if(chatcolor.equalsIgnoreCase("blue")){
+                c = ChatColor.AQUA;
+            }
+            else if (chatcolor.equalsIgnoreCase("white")){
+                c = ChatColor.WHITE;
+            }else{
+                c = ChatColor.GRAY;
+            }
 
-                    ChatColor c;
-
-                    if(chatcolor.equalsIgnoreCase("dred")){
-                        c = ChatColor.DARK_RED;
-                    }else if (chatcolor.equalsIgnoreCase("lred")){
-                        c = ChatColor.RED;
-                    }else if(chatcolor.equalsIgnoreCase("blue")){
-                        c = ChatColor.AQUA;
-                    }
-                    else if (chatcolor.equalsIgnoreCase("white")){
-                        c = ChatColor.WHITE;
-                    }else{
-                        c = ChatColor.GRAY;
-                    }
-
-                    if(!chatStatus.getOutgoingChatStatus()){
-
-                        if(p.hasPermission("managerapi.chat.bypass")){
-                            player.sendMessage(ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + c + msg);
-                        }
-                        else{
-                            p.sendMessage(ChatColor.RED + "Chat is currently disabled!");
-                            break;
-                        }
-
-                    }
-                    else{
-                        player.sendMessage(ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + c + msg);
-                    }
-
+            if(!chatStatus.getOutgoingChatStatus()){
+                if(p.hasPermission("managerapi.chat.bypass")){
+                    chatApi.sendMsg(p, msg, "chat-"+label, label, chatcolor);
+                    Bukkit.broadcast(ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + c + msg, "managerapi.chat");
                 }
-
+                return;
+            }
+            else{
+                chatApi.sendMsg(p, msg, "chat-"+label, label, chatcolor);
+                Bukkit.broadcast(ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + c + msg, "managerapi.chat");
             }
 
         } catch (Exception e) {
