@@ -9,7 +9,7 @@ commands:
 
   chatcommand:
     description: this is the global chat command
-    aliases: [sc, dc]
+    aliases: [sc, dc, g]
     usage: /<command> <msg>
 
   managerapireload:
