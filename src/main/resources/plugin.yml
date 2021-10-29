@@ -1,7 +1,7 @@
 name: Managerapi
 version: ${project.version}
 main: me.bdx.managerapi.Managerapi
-api-version: 1.16
+api-version: 1.17
 softdepend: [Essentials, Vault]
 
 
@@ -29,6 +29,12 @@ commands:
     description: Options on enabling and disabling chat
     aliases: [globalchat]
 
+  globalcommand:
+    description: This command allows for one command to be executed by console on all servers.
+    aliases:
+      - gcommand
+      - gcmd
+
 
 permissions:
   managerapi.*:
@@ -46,3 +52,5 @@ permissions:
       managerapi.stafflist: true
       managerapi.player.info: true
       managerapi.chat.bypass: true
+      managerapi.globalcommand: true
+      managerapi.globalcommand.notify: true

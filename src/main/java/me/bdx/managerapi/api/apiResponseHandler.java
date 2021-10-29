@@ -1,5 +1,6 @@
 package me.bdx.managerapi.api;
 
+import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.commands.globalStaffCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -77,6 +78,11 @@ public class apiResponseHandler {
 
             globalStaffCommand.refreshStaff();
 
+        }
+
+        else if(response.getString("type").contains("globalCommand")){
+            Managerapi.commandHandler.processCommand(response.getString("command"));
+            Bukkit.broadcast( ChatColor.GRAY + "[GC Log] "+response.getString("sender")+ " used the command /"+response.getString("command"), "managerapi.globalcommand.notify");
         }
 
     }

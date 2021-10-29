@@ -3,12 +3,14 @@ package me.bdx.managerapi;
 import com.earth2me.essentials.Essentials;
 import com.neovisionaries.ws.client.WebSocketException;
 import me.bdx.managerapi.api.chatApi;
+import me.bdx.managerapi.chat.ChatSender;
 import me.bdx.managerapi.commands.*;
 import me.bdx.managerapi.config.managerapiconfig;
 import me.bdx.managerapi.events.chatEvent;
 import me.bdx.managerapi.events.commandEvent;
 import me.bdx.managerapi.events.joinEvent;
 import me.bdx.managerapi.events.leaveEvent;
+import me.bdx.managerapi.handlers.globalCommandHandler;
 import me.bdx.managerapi.statusControls.chatStatus;
 import me.bdx.managerapi.tabcomplete.globalchatStatusTabComplete;
 import net.milkbowl.vault.chat.Chat;
@@ -29,6 +31,8 @@ public final class Managerapi extends JavaPlugin {
     public static Chat chat;
     public static Permission permission;
     public static Managerapi managerapi;
+    public static ChatSender chatSender;
+    public static globalCommandHandler commandHandler;
 
     @Override
     public void onEnable() {
@@ -37,6 +41,7 @@ public final class Managerapi extends JavaPlugin {
         Plugin essentialsPlugin = Bukkit.getPluginManager().getPlugin("Essentials");
 
         managerapi = this;
+        commandHandler = new globalCommandHandler();
 
         if (essentialsPlugin.isEnabled() && (essentialsPlugin instanceof Essentials)) {
             essentials = (Essentials) essentialsPlugin;
@@ -81,6 +86,7 @@ public final class Managerapi extends JavaPlugin {
         getCommand("staff").setExecutor(new globalStaffCommand());
         getCommand("playerinfo").setExecutor(new playerInfoCommand());
         getCommand("gchat").setExecutor(new globalChatStatusCommand());
+        getCommand("globalcommand").setExecutor(new globalCommand());
 
         //assigns the tab complete classes
         getCommand("gchat").setTabCompleter(new globalchatStatusTabComplete());

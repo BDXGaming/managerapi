@@ -3,6 +3,8 @@ package me.bdx.managerapi.api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import com.earth2me.essentials.User;
 import com.neovisionaries.ws.client.*;
 import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.config.managerapiconfig;
@@ -26,15 +28,12 @@ public class chatApi {
     private static final int TIMEOUT = 5000;
     private static WebSocket ws;
 
-    /**
-     * The entry point of this command line application.
-     */
+
     public static void sendMsg(Player sender, String msg, String type, String label) throws Exception
     {
 
-
         String jsonMsg = new JSONObject()
-                .put("playerDisplayName", sender.getDisplayName())
+                .put("playerDisplayName", Managerapi.essentials.getUser(sender).getNick())
                 .put("playerRealName", sender.getName())
                 .put("playerUUID", sender.getUniqueId().toString())
                 .put("server-name", managerapiconfig.get().getString("server-name"))
@@ -53,7 +52,7 @@ public class chatApi {
 
 
         String jsonMsg = new JSONObject()
-                .put("playerDisplayName", sender.getDisplayName())
+                .put("playerDisplayName", Managerapi.essentials.getUser(sender).getNick())
                 .put("playerRealName", sender.getName())
                 .put("playerUUID", sender.getUniqueId().toString())
                 .put("server-name", managerapiconfig.get().getString("server-name"))
@@ -66,6 +65,22 @@ public class chatApi {
 
         ws.sendText(jsonMsg);
 
+    }
+
+    public static void sendCustomMsg(String sender, String displayname, String msg, String type, String label, String chatcolor) throws Exception{
+
+        String jsonMsg = new JSONObject()
+                .put("playerDisplayName", displayname)
+                .put("playerRealName", sender)
+                .put("playerUUID", sender)
+                .put("server-name", managerapiconfig.get().getString("server-name"))
+                .put("chat-label", label)
+                .put("type", type)
+                .put("content", msg)
+                .put("chatColor", chatcolor)
+                .toString();
+
+        ws.sendText(jsonMsg);
     }
 
     public static void sendConMsg(String sender, String msg, String type, String label, String chatcolor) throws Exception
@@ -85,6 +100,20 @@ public class chatApi {
 
         ws.sendText(jsonMsg);
 
+    }
+
+    /**
+     * @param command
+     * This method invokes a command on ALL CONNECTED SERVERS
+     */
+    public static void sendGlobalCommand(String command, String sender) throws JSONException {
+        String jsonMsg = new JSONObject()
+                .put("command", command)
+                .put("type", "globalCommand")
+                .put("sender", sender)
+                .toString();
+
+        ws.sendText(jsonMsg);
     }
 
     public static void requestStaff() throws JSONException {
