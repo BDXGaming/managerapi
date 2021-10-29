@@ -1,5 +1,7 @@
 package me.bdx.managerapi.commands;
 
+import com.earth2me.essentials.User;
+import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.api.chatApi;
 import me.bdx.managerapi.config.managerapiconfig;
 import org.bukkit.Bukkit;
@@ -23,7 +25,8 @@ public class globalchatcommand implements CommandExecutor {
     public void prepMsg(Player p, String label, String[] args){
 
         StringBuilder msg = new StringBuilder();
-
+        User user = Managerapi.essentials.getUser(p);
+        String name = user.getNick();
         for(String word: args){
             msg.append(word + " ");
         }
@@ -31,15 +34,78 @@ public class globalchatcommand implements CommandExecutor {
 
         try {
             chatApi.sendMsg(p, msg.toString(), "chat-"+label, label);
+            Bukkit.broadcast(ChatColor.GRAY +"(/"+ label+ ") " +"[" +managerapiconfig.get().getString("server-name")+"] " + ChatColor.translateAlternateColorCodes('&', name) + ": " + ChatColor.LIGHT_PURPLE + msg, "managerapi.chatcommand.devchat");
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void prepGlobalMessage(Player p, String label, String msg){
+
+        User user = Managerapi.essentials.getUser(p);
+        String name = user.getNick();
+
+        String chatcolor = "";
+
+        if(p.hasPermission("managerapi.chatcolor.dred")){
+            chatcolor = "dred";
+        }
+        else if(p.hasPermission("managerapi.chatcolor.lred")){
+            chatcolor = "lred";
+        }else if(p.hasPermission("managerapi.chatcolor.blue")){
+            chatcolor = "blue";
+        }
+        else if(p.hasPermission("managerapi.chatcolor.white")){
+            chatcolor = "white";
+        }
+        else{
+            chatcolor = "grey";
+        }
+
+
+        try {
+            chatApi.sendMsg(p, msg, "chat-"+label, label, chatcolor);
 
             for(Player player: Bukkit.getServer().getOnlinePlayers()){
 
-                if(player.hasPermission("managerapi.chatcommand.devchat")){
-                    player.sendMessage(ChatColor.GRAY +"(/"+ label+ ") " +"[" +managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + ChatColor.LIGHT_PURPLE + msg);
+                if(player.hasPermission("managerapi.chat")){
+
+                    ChatColor c;
+
+                    if(chatcolor.equalsIgnoreCase("dred")){
+                        c = ChatColor.DARK_RED;
+                    }else if (chatcolor.equalsIgnoreCase("lred")){
+                        c = ChatColor.RED;
+                    }else if(chatcolor.equalsIgnoreCase("blue")){
+                        c = ChatColor.AQUA;
+                    }
+                    else if (chatcolor.equalsIgnoreCase("white")){
+                        c = ChatColor.WHITE;
+                    }else{
+                        c = ChatColor.GRAY;
+                    }
+
+                    if(!chatStatus.getOutgoingChatStatus()){
+
+                        if(p.hasPermission("managerapi.chat.bypass")){
+                            player.sendMessage(ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + ChatColor.translateAlternateColorCodes('&', name)+ ": " + c + msg);
+                        }
+                        else{
+                            p.sendMessage(ChatColor.RED + "Chat is currently disabled!");
+                            break;
+                        }
+
+                    }
+                    else{
+                        player.sendMessage(ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + ChatColor.translateAlternateColorCodes('&', name) + ": " + c + msg);
+                    }
+
                 }
 
             }
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,7 +118,52 @@ public class globalchatcommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
 
-        if(label.equalsIgnoreCase("sc")){
+        if(label.equalsIgnoreCase("g")) {
+
+            if (chatStatus.getGlobalStatus()) {
+
+                if (!(sender instanceof Player)) {
+
+                    StringBuilder msg = new StringBuilder();
+
+                    for (String word : args) {
+                        msg.append(word + " ");
+                    }
+
+                    try {
+                        chatApi.sendConMsg("Console", msg.toString(), "chat-" + label, label, "lred");
+
+                        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+
+                            player.sendMessage(ChatColor.GRAY + "(/" + label + ") " + "[" + managerapiconfig.get().getString("server-name") + "] " + ChatColor.WHITE + "Console" + ": " + ChatColor.LIGHT_PURPLE + msg);
+
+                        }
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    return true;
+                }
+
+                else{
+                    Player player = (Player) sender;
+
+                    StringBuilder msg = new StringBuilder();
+
+                    for (String word : args) {
+                        msg.append(word).append(" ");
+                    }
+
+                    prepGlobalMessage(player, "g", msg.toString());
+                    return true;
+                }
+            }
+        }
+
+
+        else if(label.equalsIgnoreCase("sc")){
 
             if(chatStatus.getStaffChatStatus()){
 
@@ -92,7 +203,8 @@ public class globalchatcommand implements CommandExecutor {
                     for(String word: args){
                         msg.append(word + " ");
                     }
-
+                    User user = Managerapi.essentials.getUser(p);
+                    String name = user.getNick();
 
                     try {
                         chatApi.sendMsg(p, msg.toString(), "chat-"+label, label);
@@ -100,7 +212,7 @@ public class globalchatcommand implements CommandExecutor {
                         for(Player player: Bukkit.getServer().getOnlinePlayers()){
 
                             if(player.hasPermission("managerapi.chatcommand")){
-                                player.sendMessage(ChatColor.GRAY +"(/"+ label+ ") " +"[" +managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + ChatColor.LIGHT_PURPLE + msg);
+                                player.sendMessage(ChatColor.GRAY +"(/"+ label+ ") " +"[" +managerapiconfig.get().getString("server-name")+"] " + ChatColor.translateAlternateColorCodes('&', name)+ ": " + ChatColor.LIGHT_PURPLE + msg);
                             }
 
                         }
@@ -125,6 +237,32 @@ public class globalchatcommand implements CommandExecutor {
         else if (label.equalsIgnoreCase("dc")){
 
             if(chatStatus.getDevChatStatus()){
+
+                if (!(sender instanceof Player)) {
+
+                    StringBuilder msg = new StringBuilder();
+
+                    for (String word : args) {
+                        msg.append(word).append(" ");
+                    }
+
+                    try {
+                        chatApi.sendConMsg("Console", msg.toString(), "chat-" + label, label, "lred");
+
+                        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+
+                            player.sendMessage(ChatColor.GRAY + "(/" + label + ") " + "[" + managerapiconfig.get().getString("server-name") + "] " + ChatColor.WHITE + "Console" + ": " + ChatColor.LIGHT_PURPLE + msg);
+
+                        }
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    return true;
+                }
+
                 if(sender.hasPermission("managerapi.chatcommand.devchat")){
 
                     Player p = (Player)sender;
