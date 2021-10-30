@@ -2,9 +2,9 @@ package me.bdx.managerapi.api;
 
 import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.commands.globalStaffCommand;
+import me.bdx.managerapi.customEvents.onGlobalCommandReceive;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.json.JSONException;
 import org.json.JSONObject;
 import me.bdx.managerapi.statusControls.chatStatus;
@@ -81,9 +81,15 @@ public class apiResponseHandler {
         }
 
         else if(response.getString("type").contains("globalCommand")){
-            Managerapi.commandHandler.processCommand(response.getString("command"));
-            Bukkit.broadcast( ChatColor.GRAY + "[GC Log] "+response.getString("sender")+ " used the command /"+response.getString("command"), "managerapi.globalcommand.notify");
-        }
+
+            onGlobalCommandReceive event = new onGlobalCommandReceive(response.getString("command"), response.getString("sender"));
+            Bukkit.getServer().getPluginManager().callEvent(event);
+
+            if(!event.isCancelled()){
+                Managerapi.commandHandler.processCommand(response.getString("command"));
+                Bukkit.broadcast( ChatColor.GRAY + "[GC Log] "+response.getString("sender")+ " used the command /"+response.getString("command"), "managerapi.globalcommand.notify");
+                }
+            }
 
     }
 
