@@ -83,7 +83,7 @@ public class apiResponseHandler {
         else if(response.getString("type").contains("globalCommand")){
 
             onGlobalCommandReceive event = new onGlobalCommandReceive(response.getString("command"), response.getString("sender"));
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            Bukkit.getScheduler().runTaskAsynchronously(Managerapi.managerapi, () -> Bukkit.getPluginManager().callEvent(event));
 
             if(!event.isCancelled()){
                 Managerapi.commandHandler.processCommand(response.getString("command"));
