@@ -13,7 +13,7 @@ public class onGlobalCommandEvent extends Event implements Cancellable {
 
 
     public onGlobalCommandEvent(String command_string, String sender){
-        super(true);
+        super(false);
         this.command = command_string;
         this.commandSenderName = sender;
         this.isCancelled = false;
