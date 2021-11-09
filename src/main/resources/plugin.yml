@@ -2,6 +2,7 @@ name: Managerapi
 version: ${project.version}
 main: me.bdx.managerapi.Managerapi
 api-version: 1.17
+author: BDX____
 softdepend: [Essentials, Vault]
 
 
