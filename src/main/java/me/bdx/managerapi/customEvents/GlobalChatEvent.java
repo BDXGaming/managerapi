@@ -37,6 +37,25 @@ public class GlobalChatEvent extends Event implements Cancellable {
     }
 
     /**
+     * Constructs a new GlobalChatEvent supporting either sync or async
+     * @param sender The player who is sending a message
+     * @param msgContent The content of the message
+     * @param fullMessage The full message
+     * @param ChatColor The color  of the message
+     * @param async boolean, whether the meth id async
+     */
+    public GlobalChatEvent(Player sender, String msgContent, String fullMessage, String ChatColor, boolean async){
+        super(async);
+        this.player = sender;
+        this.message = msgContent;
+        this.chat_channel = "g";
+        this.isCancelled = false;
+        this.isModified = false;
+        this.fullMessage = fullMessage;
+        this.ChatColor = ChatColor;
+    }
+
+    /**
      * Construct a new GlobalChatEvent using String sender rather than player
      *
      * @param sender The string sender of the chat
