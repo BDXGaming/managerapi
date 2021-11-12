@@ -90,8 +90,8 @@ public class globalchatcommand implements CommandExecutor {
 
             String fullmsg = ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + c + msg;
 
-            GlobalChatEvent event = new GlobalChatEvent(p, msg, fullmsg, chatcolor);
-            Bukkit.getScheduler().runTaskAsynchronously(Managerapi.managerapi, () -> Bukkit.getPluginManager().callEvent(event));
+            GlobalChatEvent event = new GlobalChatEvent(p, msg, fullmsg, chatcolor,false);
+            Bukkit.getPluginManager().callEvent(event);
 
             if(!event.isCancelled()){
 
