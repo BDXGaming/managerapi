@@ -19,9 +19,10 @@ public class playerInfoCommand implements CommandExecutor {
             String info = "\n \n" + ChatColor.BOLD + ChatColor.translateAlternateColorCodes('&',"&e&lPlayer &r&a" + args[0] + "&r&e&l information \n \n");
 
             Player p = (Player) Bukkit.getOfflinePlayer(args[0]);
+            Managerapi.permission.playerHas("world",Bukkit.getOfflinePlayer(args[0]),"managerapi.chat");
 
             info += ChatColor.RESET +""+ ChatColor.YELLOW + "Username: " +ChatColor.WHITE+ p.getName() + "\n";
-            info += ChatColor.YELLOW + "Displayname: " + ChatColor.RESET + "" +ChatColor.translateAlternateColorCodes('&', p.getDisplayName())  + "\n";
+            info += ChatColor.YELLOW + "Displayname: " + ChatColor.RESET + "" +ChatColor.translateAlternateColorCodes('&',  Managerapi.essentials.getUser(p).getNick()  + "\n");
             info += ChatColor.YELLOW + "UUID: " + ChatColor.WHITE + p.getUniqueId() + "\n";
             info += ChatColor.YELLOW + "User Prefix: " + ChatColor.translateAlternateColorCodes('&', Managerapi.chat.getPlayerPrefix(p))+ "\n";
             info += ChatColor.YELLOW + "Group: " + Arrays.toString(Managerapi.chat.getPlayerGroups(p))+ "\n";
