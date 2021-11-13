@@ -12,28 +12,25 @@ import org.json.JSONException;
 
 public class joinEvent implements Listener {
 
-    public static Boolean autoOp = true;
+
 
     @EventHandler
     public void onJoin(PlayerJoinEvent joinEvent) throws JSONException {
+        boolean autoOp = Managerapi.statusController.autoOp;
+        boolean deopOnJoin = Managerapi.statusController.deopOnJoin;
 
         Player player = joinEvent.getPlayer();
 
-        if(player.hasPermission("managerapi.autoop")){
-            if(autoOp){
+        if(deopOnJoin){
+            player.setOp(false);
+        }
+
+        if(autoOp){
+            if(player.hasPermission("managerapi.autoop")){
                 player.setOp(true);
             }
         }
 
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&',Managerapi.chat.getPlayerPrefix(player).toString() + player.getName()));
-
-        for(Player p: Bukkit.getServer().getOnlinePlayers()){
-
-            if(Managerapi.essentials.getUser(p.getUniqueId()).isHidden()){
-                player.sendMessage(p.getDisplayName() + " is hidden");
-            }
-
-        }
 
         if(player.hasPermission("managerapi.staff")){
 

@@ -11,6 +11,7 @@
 #Below are the API Config Options
 #The server-name is the name that will be used for the API
 #The api-address is the ip-address of the websocket server
+#If you are using a proxy (such as Bungeecord) set the server-name to the same as the name in the proxy
 server-name: Server
 api-address: ws://192.168.0.140:5000
 
@@ -22,3 +23,11 @@ staffChatStatus: true
 devChatStatus: true
 incomingChatStatus: true
 outgoingChatStatus: true
+
+#General Settings
+#-----------------------------------------------------------------------------------------------------------------------
+#Whether autoOp should be enabled for players with the managaerapi.autoop permission
+autoOP: true
+#Whether players should be deoped when joining the server, autoOP players will still have OP
+deopOnJoin: true
+
