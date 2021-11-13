@@ -110,7 +110,7 @@ public class globalchatcommand implements CommandExecutor {
                         chatApi.sendMsg(p, msg, "chat-"+label, label, chatcolor);
                         Bukkit.broadcast(fullmsg, "managerapi.chat");
                     }
-                    return;
+
                 }
                 else{
                     chatApi.sendMsg(p, msg, "chat-"+label, label, chatcolor);
@@ -131,7 +131,7 @@ public class globalchatcommand implements CommandExecutor {
 
         if(label.equalsIgnoreCase("g")) {
 
-            if (chatStatus.getGlobalStatus()) {
+            if (chatStatus.getGlobalStatus() | sender.hasPermission("managerapi.chat.bypass")) {
 
                 if (!(sender instanceof Player)) {
 

@@ -74,12 +74,11 @@ public class chatEvent implements Listener {
 
 
 
-                if(!chatStatus.getOutgoingChatStatus()){
+                if(!(chatStatus.getOutgoingChatStatus())){
                     if(p.hasPermission("managerapi.chat.bypass")){
                         chatApi.sendMsg(p, msg, "chat-"+label, label, chatcolor);
                         Bukkit.broadcast(fullmsg, "managerapi.chat");
                     }
-                    return;
                 }
                 else{
                     chatApi.sendMsg(p, msg, "chat-"+label, label, chatcolor);
@@ -98,6 +97,10 @@ public class chatEvent implements Listener {
     @EventHandler
     public void onChatEvent(AsyncPlayerChatEvent chatEvent){
         if(chatStatus.getGlobalStatus()){
+            chatEvent.setCancelled(true);
+            prepMsg(chatEvent.getPlayer(), "g", chatEvent.getMessage());
+        }
+        else if(chatEvent.getPlayer().hasPermission("managerapi.chat.bypass")){
             chatEvent.setCancelled(true);
             prepMsg(chatEvent.getPlayer(), "g", chatEvent.getMessage());
         }
