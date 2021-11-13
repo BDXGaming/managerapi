@@ -3,7 +3,6 @@ package me.bdx.managerapi.api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import com.earth2me.essentials.User;
 import com.neovisionaries.ws.client.*;
 import me.bdx.managerapi.Managerapi;
@@ -116,6 +115,10 @@ public class chatApi {
         ws.sendText(jsonMsg);
     }
 
+    public static void sendCustomPacket(JSONObject packet){
+        ws.sendText(packet.toString());
+    }
+
     public static void requestStaff() throws JSONException {
         String jsonMsg = new JSONObject()
                 .put("type", "getStaff")
@@ -200,7 +203,6 @@ public class chatApi {
 
     public static void closeConn(){
         try{
-            ws.sendClose();
             ws.disconnect();
         }catch (NullPointerException e){
             Bukkit.getLogger().warning("Unable to disconnect from websocket!");
