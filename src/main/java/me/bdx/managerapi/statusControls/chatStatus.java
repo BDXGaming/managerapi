@@ -52,6 +52,8 @@ public class chatStatus {
      */
     public static void setGlobalChat(boolean status){
         globalChatStatus = status;
+        incomingChatStatus = status;
+        outgoingChatStatus = status;
     }
 
     /**

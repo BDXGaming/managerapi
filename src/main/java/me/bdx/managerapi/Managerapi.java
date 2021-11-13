@@ -6,6 +6,7 @@ import me.bdx.managerapi.api.chatApi;
 import me.bdx.managerapi.chat.ChatSender;
 import me.bdx.managerapi.commands.*;
 import me.bdx.managerapi.config.managerapiconfig;
+import me.bdx.managerapi.statusControls.statusController;
 import me.bdx.managerapi.events.chatEvent;
 import me.bdx.managerapi.events.commandEvent;
 import me.bdx.managerapi.events.joinEvent;
@@ -20,7 +21,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.units.qual.N;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -33,6 +33,7 @@ public final class Managerapi extends JavaPlugin {
     public static Managerapi managerapi;
     public static ChatSender chatSender;
     public static globalCommandHandler commandHandler;
+    public static statusController statusController;
 
     @Override
     public void onEnable() {
@@ -42,6 +43,14 @@ public final class Managerapi extends JavaPlugin {
 
         managerapi = this;
         commandHandler = new globalCommandHandler();
+
+        //Sets up the config files for the plugin
+        managerapiconfig.setup();
+
+        //Loads the chatStatus values from the config
+        chatStatus.loadFromConfig();
+
+        statusController = new statusController();
 
         if (essentialsPlugin.isEnabled() && (essentialsPlugin instanceof Essentials)) {
             essentials = (Essentials) essentialsPlugin;
@@ -66,12 +75,6 @@ public final class Managerapi extends JavaPlugin {
         }
 
         int[] coords = {0,0,0};
-
-        //Sets up the config files for the plugin
-        managerapiconfig.setup();
-
-        //Loads the chatStatus values from the config
-        chatStatus.loadFromConfig();
 
         //Creates the API connection for the chat system
         try {

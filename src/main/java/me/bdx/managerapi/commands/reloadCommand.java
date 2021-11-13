@@ -1,5 +1,6 @@
 package me.bdx.managerapi.commands;
 
+import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.config.managerapiconfig;
 import me.bdx.managerapi.statusControls.chatStatus;
 import org.bukkit.ChatColor;
@@ -15,6 +16,7 @@ public class reloadCommand implements CommandExecutor {
 
             managerapiconfig.reload();
             chatStatus.loadFromConfig();
+            Managerapi.statusController.reload();
             sender.sendMessage(ChatColor.GREEN + "[ManagerApi]: Config has been reloaded!");
             return true;
 
