@@ -15,6 +15,8 @@
 server-name: Server
 api-address: ws://192.168.0.140:5000
 
+#Chat Settings
+#-----------------------------------------------------------------------------------------------------------------------
 #These are the status indicators for the various chats made by the plugin
 #The incoming and outgoing status applies ONLY for globalchat
 #To toggle either /dc or /sc set the staff or dev chats to false
@@ -23,6 +25,13 @@ staffChatStatus: true
 devChatStatus: true
 incomingChatStatus: true
 outgoingChatStatus: true
+
+#The channel which chats will be sent on and listened for. Messages sent in other channels won't be displayed unless
+#showAltChannels is enabled and users have required permissions
+#Default channel is global
+chatChannel: global
+#Show chats sent in other channels to users with managerapi.chat.viewother
+showAltChannels: true
 
 #General Settings
 #-----------------------------------------------------------------------------------------------------------------------

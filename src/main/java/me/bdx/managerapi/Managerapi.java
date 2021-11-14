@@ -4,6 +4,7 @@ import com.earth2me.essentials.Essentials;
 import com.neovisionaries.ws.client.WebSocketException;
 import me.bdx.managerapi.api.chatApi;
 import me.bdx.managerapi.chat.ChatSender;
+import me.bdx.managerapi.chat.channelListeners;
 import me.bdx.managerapi.commands.*;
 import me.bdx.managerapi.config.managerapiconfig;
 import me.bdx.managerapi.statusControls.statusController;
@@ -34,6 +35,7 @@ public final class Managerapi extends JavaPlugin {
     public static ChatSender chatSender;
     public static globalCommandHandler commandHandler;
     public static statusController statusController;
+    public static channelListeners channelListeners;
 
     @Override
     public void onEnable() {
@@ -51,6 +53,7 @@ public final class Managerapi extends JavaPlugin {
         chatStatus.loadFromConfig();
 
         statusController = new statusController();
+        channelListeners = new channelListeners();
 
         if (essentialsPlugin.isEnabled() && (essentialsPlugin instanceof Essentials)) {
             essentials = (Essentials) essentialsPlugin;
@@ -90,6 +93,7 @@ public final class Managerapi extends JavaPlugin {
         getCommand("playerinfo").setExecutor(new playerInfoCommand());
         getCommand("gchat").setExecutor(new globalChatStatusCommand());
         getCommand("globalcommand").setExecutor(new globalCommand());
+        getCommand("togglealtchannels").setExecutor(new toggleChannels());
 
         //assigns the tab complete classes
         getCommand("gchat").setTabCompleter(new globalchatStatusTabComplete());

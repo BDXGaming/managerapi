@@ -5,9 +5,12 @@ import me.bdx.managerapi.commands.globalStaffCommand;
 import me.bdx.managerapi.customEvents.onGlobalCommandReceive;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.json.JSONException;
 import org.json.JSONObject;
 import me.bdx.managerapi.statusControls.chatStatus;
+
+import java.util.UUID;
 
 public class apiResponseHandler {
 
@@ -42,9 +45,7 @@ public class apiResponseHandler {
                 if((chatStatus.getGlobalStatus()) && chatStatus.getIncomingChatStatus()){
 
                     ChatColor c;
-
                     String chatcolor = response.getString("chatColor");
-
                     if(chatcolor.equalsIgnoreCase("dred")){
                         c = ChatColor.DARK_RED;
                     }else if (chatcolor.equalsIgnoreCase("lred")){
@@ -58,7 +59,23 @@ public class apiResponseHandler {
                         c = ChatColor.GRAY;
                     }
 
-                    Bukkit.broadcast(ChatColor.GRAY+"["+response.getString("server-name")+"] "+ChatColor.translateAlternateColorCodes('&',response.getString("playerDisplayName")) + ": " + c + response.getString("content"), "managerapi.chat");
+                    if(Managerapi.statusController.chatChannel.equalsIgnoreCase(response.getString("channel"))){
+
+                        Bukkit.broadcast(ChatColor.GRAY+"["+response.getString("server-name")+"] "+ChatColor.translateAlternateColorCodes('&',response.getString("playerDisplayName")) + ": " + c + response.getString("content"), "managerapi.chat");
+                    }
+                    else{
+                        for(UUID uuid: Managerapi.channelListeners.getListeners()){
+                            try {
+                                Player p = Bukkit.getPlayer(uuid);
+                                if (p != null) {
+                                    p.sendMessage(ChatColor.GRAY + "[" + response.getString("channel") + "]" + "[" + response.getString("server-name") + "] " + ChatColor.translateAlternateColorCodes('&', response.getString("playerDisplayName")) + ": " + c + response.getString("content"));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
                 }
 
 

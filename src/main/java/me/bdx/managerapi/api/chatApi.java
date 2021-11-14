@@ -39,6 +39,7 @@ public class chatApi {
                 .put("chat-label", label)
                 .put("type", type)
                 .put("content", msg)
+                .put("channel", Managerapi.statusController.chatChannel)
                 .toString();
 
 
@@ -59,6 +60,7 @@ public class chatApi {
                 .put("type", type)
                 .put("content", msg)
                 .put("chatColor", chatcolor)
+                .put("channel", Managerapi.statusController.chatChannel)
                 .toString();
 
 
@@ -77,6 +79,7 @@ public class chatApi {
                 .put("type", type)
                 .put("content", msg)
                 .put("chatColor", chatcolor)
+                .put("channel", Managerapi.statusController.chatChannel)
                 .toString();
 
         ws.sendText(jsonMsg);
@@ -94,6 +97,7 @@ public class chatApi {
                 .put("type", type)
                 .put("content", msg)
                 .put("chatColor", chatcolor)
+                .put("channel", Managerapi.statusController.chatChannel)
                 .toString();
 
 

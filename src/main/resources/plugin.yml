@@ -35,6 +35,9 @@ commands:
     aliases:
       - gcommand
       - gcmd
+  togglealtchannels:
+    description: Allows users to view chats from other chat channels
+    aliases: [chatspy,channelspy,togglechannels,tchannels]
 
 
 permissions:
@@ -55,3 +58,4 @@ permissions:
       managerapi.chat.bypass: true
       managerapi.globalcommand: true
       managerapi.globalcommand.notify: true
+      managerapi.chat.viewother: true

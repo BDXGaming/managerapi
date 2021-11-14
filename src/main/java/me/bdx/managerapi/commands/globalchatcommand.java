@@ -70,21 +70,7 @@ public class globalchatcommand implements CommandExecutor {
 
         try {
 
-
             ChatColor c;
-
-            if(chatcolor.equalsIgnoreCase("dred")){
-                c = ChatColor.DARK_RED;
-            }else if (chatcolor.equalsIgnoreCase("lred")){
-                c = ChatColor.RED;
-            }else if(chatcolor.equalsIgnoreCase("blue")){
-                c = ChatColor.AQUA;
-            }
-            else if (chatcolor.equalsIgnoreCase("white")){
-                c = ChatColor.WHITE;
-            }else{
-                c = ChatColor.GRAY;
-            }
 
             c = ChatColorHelper.stringToColor(chatcolor);
 

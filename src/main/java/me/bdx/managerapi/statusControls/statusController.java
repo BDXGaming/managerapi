@@ -6,6 +6,8 @@ import me.bdx.managerapi.config.managerapiconfig;
 public class statusController {
     public boolean autoOp;
     public boolean deopOnJoin;
+    public boolean showAltChannels;
+    public String chatChannel;
 
     /**
      * Creates a new status controller for Managerapi
@@ -13,6 +15,8 @@ public class statusController {
     public statusController(){
         this.autoOp = managerapiconfig.get().getBoolean("autoOP");
         this.deopOnJoin = managerapiconfig.get().getBoolean("deopOnJoin");
+        this.showAltChannels = managerapiconfig.get().getBoolean("showAltChannels");
+        this.chatChannel = managerapiconfig.get().getString("chatChannel");
     }
 
     /**
@@ -21,6 +25,8 @@ public class statusController {
     public void reload(){
         this.autoOp = managerapiconfig.get().getBoolean("autoOp");
         this.deopOnJoin = managerapiconfig.get().getBoolean("deopOnJoin");
+        this.showAltChannels = managerapiconfig.get().getBoolean("showAltChannels");
+        this.chatChannel = managerapiconfig.get().getString("chatChannel");
     }
 
     /**
