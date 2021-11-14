@@ -12,6 +12,7 @@ public class commandEvent implements Listener {
     @EventHandler
     public void PlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event){
 
+        //Sends an update to stafflist if user vanishes
         if(event.getMessage().equalsIgnoreCase("/v") || event.getMessage().equalsIgnoreCase("/vanish")){
 
             boolean value = Managerapi.essentials.getUser(event.getPlayer().getUniqueId()).isHidden();
