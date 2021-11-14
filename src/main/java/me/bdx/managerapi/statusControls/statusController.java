@@ -8,6 +8,8 @@ public class statusController {
     public boolean deopOnJoin;
     public boolean showAltChannels;
     public String chatChannel;
+    public String server;
+    public boolean globalPlayerList;
 
     /**
      * Creates a new status controller for Managerapi
@@ -17,6 +19,8 @@ public class statusController {
         this.deopOnJoin = managerapiconfig.get().getBoolean("deopOnJoin");
         this.showAltChannels = managerapiconfig.get().getBoolean("showAltChannels");
         this.chatChannel = managerapiconfig.get().getString("chatChannel");
+        this.globalPlayerList = managerapiconfig.get().getBoolean("globalPlayerList");
+        this.server = managerapiconfig.get().getString("server-name");
     }
 
     /**
@@ -27,6 +31,8 @@ public class statusController {
         this.deopOnJoin = managerapiconfig.get().getBoolean("deopOnJoin");
         this.showAltChannels = managerapiconfig.get().getBoolean("showAltChannels");
         this.chatChannel = managerapiconfig.get().getString("chatChannel");
+        this.globalPlayerList = managerapiconfig.get().getBoolean("globalPlayerList");
+        this.server = managerapiconfig.get().getString("server-name");
     }
 
     /**

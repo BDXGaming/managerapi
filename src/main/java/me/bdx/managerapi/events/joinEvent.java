@@ -20,6 +20,7 @@ public class joinEvent implements Listener {
         //The autoOp status from config file, stored in statusController
         boolean autoOp = Managerapi.statusController.autoOp;
         boolean deopOnJoin = Managerapi.statusController.deopOnJoin;
+        boolean playerList = Managerapi.statusController.globalPlayerList;
 
         Player player = joinEvent.getPlayer();
 
@@ -46,6 +47,10 @@ public class joinEvent implements Listener {
                 e.printStackTrace();
             }
 
+        }
+
+        if(playerList){
+            chatApi.addPlayer(joinEvent.getPlayer());
         }
 
     }

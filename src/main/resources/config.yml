@@ -39,4 +39,5 @@ showAltChannels: true
 autoOP: true
 #Whether players should be deoped when joining the server, autoOP players will still have OP
 deopOnJoin: true
-
+#Whether or not to have list of all online players (Used in some dependent plugins for tab-completion/server tracking)
+globalPlayerList: true

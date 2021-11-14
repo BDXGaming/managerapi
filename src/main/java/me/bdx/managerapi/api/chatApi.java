@@ -173,6 +173,27 @@ public class chatApi {
 
     }
 
+    public static void addPlayer(Player p) throws JSONException {
+        String jsonMsg = new JSONObject()
+                .put("server", Managerapi.statusController.server)
+                .put("playerName", p.getName())
+                .put("uuid", p.getUniqueId())
+                .put("type", "addPlayer")
+                .toString();
+
+        ws.sendText(jsonMsg);
+    }
+
+    public static void removePlayer(Player p) throws JSONException {
+        String jsonMsg = new JSONObject()
+                .put("server", Managerapi.statusController.server)
+                .put("playerName", p.getName())
+                .put("type", "removePlayer")
+                .toString();
+
+        ws.sendText(jsonMsg);
+    }
+
 
     /**
      * Connect to the server.
@@ -208,8 +229,11 @@ public class chatApi {
     public static void closeConn(){
         try{
             ws.disconnect();
+            ws.sendClose();
         }catch (NullPointerException e){
             Bukkit.getLogger().warning("Unable to disconnect from websocket!");
+        }catch (NoClassDefFoundError e){
+            int x;
         }
 
     }
