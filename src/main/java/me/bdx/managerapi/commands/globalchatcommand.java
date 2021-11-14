@@ -50,23 +50,7 @@ public class globalchatcommand implements CommandExecutor {
         User user = Managerapi.essentials.getUser(p);
         String name = user.getNick();
 
-        String chatcolor = "";
-
-        if(p.hasPermission("managerapi.chatcolor.dred")){
-            chatcolor = "dred";
-        }
-        else if(p.hasPermission("managerapi.chatcolor.lred")){
-            chatcolor = "lred";
-        }else if(p.hasPermission("managerapi.chatcolor.blue")){
-            chatcolor = "blue";
-        }
-        else if(p.hasPermission("managerapi.chatcolor.white")){
-            chatcolor = "white";
-        }
-        else{
-            chatcolor = "grey";
-        }
-
+        String chatcolor = ChatColorHelper.playerToChatColor(p);
 
         try {
 

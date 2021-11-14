@@ -1,6 +1,7 @@
 package me.bdx.managerapi.utils;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 public class ChatColorHelper {
 
@@ -40,5 +41,24 @@ public class ChatColorHelper {
         }
 
         return c;
+    }
+
+    public static String playerToChatColor(Player p){
+        String chatcolor = "";
+        if(p.hasPermission("managerapi.chatcolor.dred")){
+            chatcolor = "dred";
+        }
+        else if(p.hasPermission("managerapi.chatcolor.lred")){
+            chatcolor = "lred";
+        }else if(p.hasPermission("managerapi.chatcolor.blue")){
+            chatcolor = "blue";
+        }
+        else if(p.hasPermission("managerapi.chatcolor.white")){
+            chatcolor = "white";
+        }
+        else{
+            chatcolor = "grey";
+        }
+        return chatcolor;
     }
 }

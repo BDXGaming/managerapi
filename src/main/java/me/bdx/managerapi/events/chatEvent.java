@@ -16,43 +16,9 @@ import me.bdx.managerapi.statusControls.chatStatus;
 
 public class chatEvent implements Listener {
 
-    public ChatColor stringToColor(String chatcolor){
-        ChatColor c;
-
-        if(chatcolor.equalsIgnoreCase("dred")){
-            c = ChatColor.DARK_RED;
-        }else if (chatcolor.equalsIgnoreCase("lred")){
-            c = ChatColor.RED;
-        }else if(chatcolor.equalsIgnoreCase("blue")){
-            c = ChatColor.AQUA;
-        }
-        else if (chatcolor.equalsIgnoreCase("white")){
-            c = ChatColor.WHITE;
-        }else{
-            c = ChatColor.GRAY;
-        }
-
-        return c;
-    }
-
     public void prepMsg(Player p, String label, String msg){
 
-        String chatcolor = "";
-
-        if(p.hasPermission("managerapi.chatcolor.dred")){
-            chatcolor = "dred";
-        }
-        else if(p.hasPermission("managerapi.chatcolor.lred")){
-            chatcolor = "lred";
-        }else if(p.hasPermission("managerapi.chatcolor.blue")){
-            chatcolor = "blue";
-        }
-        else if(p.hasPermission("managerapi.chatcolor.white")){
-            chatcolor = "white";
-        }
-        else{
-            chatcolor = "grey";
-        }
+        String chatcolor = ChatColorHelper.playerToChatColor(p);
 
         try {
 
