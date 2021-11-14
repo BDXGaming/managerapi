@@ -1,7 +1,7 @@
 name: Managerapi
 version: 0.2
 main: me.bdx.managerapi.Managerapi
-api-version: 1.17
+api-version: 1.16
 author: BDX____
 depend: [Essentials, Vault]
 
