@@ -2,7 +2,7 @@ package me.bdx.managerapi.commands;
 
 import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.api.chatApi;
-import me.bdx.managerapi.customEvents.onGlobalCommandEvent;
+import me.bdx.managerapi.customEvents.GlobalCommandSendEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,7 +22,7 @@ public class globalCommand implements CommandExecutor {
                 for(String word: args){
                     command.append(word).append(" ");
                 }
-                onGlobalCommandEvent event = new onGlobalCommandEvent(command.toString(), sender.getName());
+                GlobalCommandSendEvent event = new GlobalCommandSendEvent(command.toString(), sender.getName());
                 Bukkit.getServer().getPluginManager().callEvent(event);
 
                 if(!event.isCancelled()){

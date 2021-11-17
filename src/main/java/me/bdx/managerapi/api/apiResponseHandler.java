@@ -2,14 +2,17 @@ package me.bdx.managerapi.api;
 
 import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.commands.globalStaffCommand;
-import me.bdx.managerapi.customEvents.onGlobalCommandReceive;
+import me.bdx.managerapi.customEvents.GlobalCommandReceive;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import me.bdx.managerapi.statusControls.chatStatus;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class apiResponseHandler {
@@ -99,7 +102,7 @@ public class apiResponseHandler {
 
         else if(response.getString("type").contains("globalCommand")){
 
-            onGlobalCommandReceive event = new onGlobalCommandReceive(response.getString("command"), response.getString("sender"));
+            GlobalCommandReceive event = new GlobalCommandReceive(response.getString("command"), response.getString("sender"));
             Bukkit.getScheduler().runTaskAsynchronously(Managerapi.managerapi, () -> Bukkit.getPluginManager().callEvent(event));
 
             if(!event.isCancelled()){
@@ -107,6 +110,24 @@ public class apiResponseHandler {
                 Bukkit.broadcast( ChatColor.GRAY + "[GC Log] "+response.getString("sender")+ " used the command /"+response.getString("command"), "managerapi.globalcommand.notify");
                 }
             }
+
+        else if(response.getString("type").contains("getPlayerList")){
+            ArrayList<String> list = new ArrayList<>();
+            JSONArray j = response.getJSONArray("playerList");
+            for(int i= 0; i < response.getJSONArray("playerList").length(); i++){
+                list.add((String) j.get(i));
+            }
+            Managerapi.globalPlayers.setOnlinePlayers(list);
+        }
+
+        else if (response.getString("type").contains("getPlayerServers")){
+            JSONObject j = response.getJSONObject("playerServers");
+            HashMap<String, String> dict = new HashMap<>();
+            for (int i =0; i < Managerapi.globalPlayers.getOnlinePlayers().size(); i++){
+                dict.put(Managerapi.globalPlayers.getOnlinePlayers().get(i), j.getString(Managerapi.globalPlayers.getOnlinePlayers().get(i)));
+            }
+            Managerapi.globalPlayers.setOnlinePlayerServers(dict);
+        }
 
     }
 

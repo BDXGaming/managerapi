@@ -4,7 +4,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class onGlobalCommandEvent extends Event implements Cancellable {
+public class GlobalCommandSendEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private boolean isCancelled = false;
@@ -12,7 +12,7 @@ public class onGlobalCommandEvent extends Event implements Cancellable {
     private String commandSenderName;
 
 
-    public onGlobalCommandEvent(String command_string, String sender){
+    public GlobalCommandSendEvent(String command_string, String sender){
         super(false);
         this.command = command_string;
         this.commandSenderName = sender;

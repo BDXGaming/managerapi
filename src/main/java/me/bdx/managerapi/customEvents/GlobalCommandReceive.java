@@ -4,14 +4,14 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class onGlobalCommandReceive extends Event implements Cancellable {
+public class GlobalCommandReceive extends Event implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
     private boolean isCancelled = false;
     private String command;
     private String commandSenderName;
 
 
-    public onGlobalCommandReceive(String command_string, String sender){
+    public GlobalCommandReceive(String command_string, String sender){
         super(true);
         this.command = command_string;
         this.commandSenderName = sender;
