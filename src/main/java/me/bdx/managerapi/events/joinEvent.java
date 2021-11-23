@@ -49,8 +49,13 @@ public class joinEvent implements Listener {
 
         }
 
-        if(playerList){
-            chatApi.addPlayer(joinEvent.getPlayer());
+        if(Managerapi.statusController.globalPlayerList){
+            try {
+                chatApi.addPlayer(joinEvent.getPlayer());
+                chatApi.syncPlayerLists();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
     }

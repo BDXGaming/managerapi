@@ -1,6 +1,8 @@
 package me.bdx.managerapi.api;
 
 import com.neovisionaries.ws.client.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class chatApiListener implements WebSocketListener {
 
     @Override
     public void onDisconnected(WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) throws Exception {
-
+        Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "WS is disconnected!");
     }
 
     @Override

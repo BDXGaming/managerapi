@@ -7,6 +7,7 @@ import me.bdx.managerapi.chat.ChatSender;
 import me.bdx.managerapi.chat.channelListeners;
 import me.bdx.managerapi.commands.*;
 import me.bdx.managerapi.config.managerapiconfig;
+import me.bdx.managerapi.globalData.globalPlayers;
 import me.bdx.managerapi.statusControls.statusController;
 import me.bdx.managerapi.events.chatEvent;
 import me.bdx.managerapi.events.commandEvent;
@@ -36,6 +37,7 @@ public final class Managerapi extends JavaPlugin {
     public static globalCommandHandler commandHandler;
     public static statusController statusController;
     public static channelListeners channelListeners;
+    public static globalPlayers globalPlayers;
 
     @Override
     public void onEnable() {
@@ -54,6 +56,7 @@ public final class Managerapi extends JavaPlugin {
 
         statusController = new statusController();
         channelListeners = new channelListeners();
+        globalPlayers = new globalPlayers();
 
         if (essentialsPlugin.isEnabled() && (essentialsPlugin instanceof Essentials)) {
             essentials = (Essentials) essentialsPlugin;
@@ -94,6 +97,7 @@ public final class Managerapi extends JavaPlugin {
         getCommand("gchat").setExecutor(new globalChatStatusCommand());
         getCommand("globalcommand").setExecutor(new globalCommand());
         getCommand("togglealtchannels").setExecutor(new toggleChannels());
+        getCommand("viewOnline").setExecutor(new viewOnlinePlayers());
 
         //assigns the tab complete classes
         getCommand("gchat").setTabCompleter(new globalchatStatusTabComplete());

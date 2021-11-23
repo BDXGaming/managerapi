@@ -15,7 +15,6 @@ public class leaveEvent implements Listener {
         //Updates the stafflist, sends remove request on any player leave (fixes ex-staff persistence issues)
         try {
             chatApi.removeStaff(event.getPlayer());
-            chatApi.removePlayer(event.getPlayer());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -24,6 +23,15 @@ public class leaveEvent implements Listener {
             chatApi.requestStaff();
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+
+        if(Managerapi.statusController.globalPlayerList){
+            try {
+                chatApi.removePlayer(event.getPlayer());
+                chatApi.syncPlayerLists();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         //Removes the player from the Arraylist of AltChannelListeners when they leave the server

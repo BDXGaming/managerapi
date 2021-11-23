@@ -39,6 +39,10 @@ commands:
     description: Allows users to view chats from other chat channels
     aliases: [chatspy,channelspy,togglechannels,tchannels]
 
+  viewOnline:
+    description: See online players
+    aliases: [olist]
+
 
 permissions:
   managerapi.*:

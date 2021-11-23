@@ -27,7 +27,14 @@ public class chatApi {
     private static final int TIMEOUT = 5000;
     private static WebSocket ws;
 
-
+    /**
+     * Sends a global chat message
+     * @param sender Player
+     * @param msg String
+     * @param type String
+     * @param label String
+     * @throws Exception For JSON formatting issues
+     */
     public static void sendMsg(Player sender, String msg, String type, String label) throws Exception
     {
 
@@ -47,6 +54,15 @@ public class chatApi {
 
     }
 
+    /**
+     * Sends a global chat message
+     * @param sender Player
+     * @param msg String
+     * @param type String
+     * @param label String
+     * @param chatcolor String
+     * @throws Exception For JSON formatting issues
+     */
     public static void sendMsg(Player sender, String msg, String type, String label, String chatcolor) throws Exception
     {
 
@@ -68,6 +84,16 @@ public class chatApi {
 
     }
 
+    /**
+     * Sends a globalchat message using String sender
+     * @param sender String
+     * @param displayname String
+     * @param msg String
+     * @param type String
+     * @param label String
+     * @param chatcolor String, formatted to Managerapi string chatcolor standards
+     * @throws Exception For JSON formatting issues
+     */
     public static void sendCustomMsg(String sender, String displayname, String msg, String type, String label, String chatcolor) throws Exception{
 
         String jsonMsg = new JSONObject()
@@ -85,6 +111,15 @@ public class chatApi {
         ws.sendText(jsonMsg);
     }
 
+    /**
+     * Send a globalchat or staffchat or devchat message
+     * @param sender String
+     * @param msg String
+     * @param type String
+     * @param label String
+     * @param chatcolor String, follows Managerapi ChatColorHelper standards
+     * @throws Exception For JSON formatting issues
+     */
     public static void sendConMsg(String sender, String msg, String type, String label, String chatcolor) throws Exception
     {
 
@@ -123,6 +158,10 @@ public class chatApi {
         ws.sendText(packet.toString());
     }
 
+    /**
+     * Requests an updated stafflist from the API
+     * @throws JSONException For JSON formatting issues
+     */
     public static void requestStaff() throws JSONException {
         String jsonMsg = new JSONObject()
                 .put("type", "getStaff")
@@ -132,6 +171,11 @@ public class chatApi {
 
     }
 
+    /**
+     * Removes a member from the stafflist
+     * @param staff Player
+     * @throws JSONException For JSON formatting issues
+     */
     public static void removeStaff(Player staff) throws JSONException {
 
         String jsonMsg = new JSONObject()
@@ -144,7 +188,11 @@ public class chatApi {
 
     }
 
-
+    /**
+     * Adds a player to the stafflist
+     * @param staff Player
+     * @throws JSONException For JSON formatting issues
+     */
     public static void addStaff(Player staff) throws JSONException {
 
         String jsonMsg = new JSONObject()
@@ -159,6 +207,13 @@ public class chatApi {
 
     }
 
+    /**
+     * Updates a staff members status within the stafflist
+     * Used to account for changes in vanish state
+     * @param staff Player
+     * @param vanishState boolean
+     * @throws JSONException For JSON formatting issues
+     */
     public static void updateStaff(Player staff, boolean vanishState) throws JSONException {
 
         String jsonMsg = new JSONObject()
@@ -173,17 +228,27 @@ public class chatApi {
 
     }
 
+    /**
+     * Adds an online player to global playerlist
+     * @param p Player
+     * @throws JSONException For JSON formatting issues
+     */
     public static void addPlayer(Player p) throws JSONException {
         String jsonMsg = new JSONObject()
                 .put("server", Managerapi.statusController.server)
                 .put("playerName", p.getName())
-                .put("uuid", p.getUniqueId())
+                .put("player-uuid", p.getUniqueId())
                 .put("type", "addPlayer")
                 .toString();
 
         ws.sendText(jsonMsg);
     }
 
+    /**
+     * Removes a Player from global playerlist
+     * @param p Player
+     * @throws JSONException For JSON formatting issues
+     */
     public static void removePlayer(Player p) throws JSONException {
         String jsonMsg = new JSONObject()
                 .put("server", Managerapi.statusController.server)
@@ -191,6 +256,39 @@ public class chatApi {
                 .put("type", "removePlayer")
                 .toString();
 
+        ws.sendText(jsonMsg);
+    }
+
+    /**
+     * Requests an updated version of the global playerlist
+     * @throws JSONException For JSON formatting issues
+     */
+    public static void getPlayerList() throws JSONException {
+        String jsonMsg = new JSONObject()
+                .put("type", "getPlayerList")
+                .toString();
+        ws.sendText(jsonMsg);
+    }
+
+    /**
+     * Requests an updated version of the onlinePlayerServers
+     * @throws JSONException For JSON formatting issues
+     */
+    public static void getonlinePlayerServers() throws JSONException {
+        String jsonMsg = new JSONObject()
+                .put("type", "getPlayerServers")
+                .toString();
+        ws.sendText(jsonMsg);
+    }
+
+    /**
+     * Sends a Sync request to the API to sync all playerlists and onlinePlayerServers
+     * @throws JSONException For JSON formatting issues
+     */
+    public static void syncPlayerLists() throws JSONException {
+        String jsonMsg = new JSONObject()
+                .put("type", "syncPlayerList")
+                .toString();
         ws.sendText(jsonMsg);
     }
 
@@ -213,6 +311,12 @@ public class chatApi {
                 .connect();
     }
 
+    /**
+     * This method authorizes the connection to the API
+     * @throws IOException For socket issues
+     * @throws WebSocketException For Socket Issues
+     * @throws JSONException For JSON formatting issues
+     */
     public static void createSocketConnection() throws IOException, WebSocketException, JSONException {
 
         ws = connect();
@@ -227,15 +331,7 @@ public class chatApi {
     }
 
     public static void closeConn(){
-        try{
-            ws.disconnect();
-            ws.sendClose();
-        }catch (NullPointerException e){
-            Bukkit.getLogger().warning("Unable to disconnect from websocket!");
-        }catch (NoClassDefFoundError e){
-            int x;
-        }
-
+        ws.disconnect();
     }
 
 
