@@ -1,12 +1,18 @@
 package me.bdx.managerapi.commands;
 
+import com.neovisionaries.ws.client.WebSocketException;
 import me.bdx.managerapi.Managerapi;
+import me.bdx.managerapi.api.chatApi;
 import me.bdx.managerapi.config.managerapiconfig;
 import me.bdx.managerapi.statusControls.chatStatus;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 public class reloadCommand implements CommandExecutor {
     @Override
@@ -14,10 +20,23 @@ public class reloadCommand implements CommandExecutor {
 
         if(sender.hasPermission("managerapi.reload")){
 
+            Bukkit.broadcast(ChatColor.RED + "[ManagerAPI]: "+ChatColor.YELLOW+"Plugin is reloading", "managerapi.reload");
+            try {
+                chatApi.closeConn();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             managerapiconfig.reload();
             chatStatus.loadFromConfig();
             Managerapi.statusController.reload();
-            sender.sendMessage(ChatColor.GREEN + "[ManagerApi]: Config has been reloaded!");
+            try {
+                chatApi.createSocketConnection();
+            } catch (IOException | WebSocketException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            Bukkit.broadcast(ChatColor.RED + "[ManagerAPI]:"+ChatColor.GREEN+" Reload Complete", "managerapi.reload");
+
             return true;
 
         }

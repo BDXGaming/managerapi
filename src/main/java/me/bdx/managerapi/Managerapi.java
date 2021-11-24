@@ -119,7 +119,12 @@ public final class Managerapi extends JavaPlugin {
         // Plugin shutdown logic
 
         //Closes the API connection
-        chatApi.closeConn();
+        try {
+            chatApi.closeConn();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage("[ManagerAPI]: "+ChatColor.RED + "Websocket disconnect failed!");
+        }
         Bukkit.getServer().getConsoleSender().sendMessage("[ManagerAPI]: Connection Terminated!");
 
     }

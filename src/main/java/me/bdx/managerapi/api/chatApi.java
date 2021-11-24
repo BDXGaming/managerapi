@@ -330,7 +330,13 @@ public class chatApi {
 
     }
 
-    public static void closeConn(){
+    public static void closeConn() throws JSONException {
+
+        String jsonMsg = new JSONObject()
+                .put("type", Managerapi.statusController.DisconnectMessage)
+                .toString();
+
+        ws.sendText(jsonMsg);
         ws.disconnect();
     }
 

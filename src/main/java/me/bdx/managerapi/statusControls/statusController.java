@@ -1,6 +1,5 @@
 package me.bdx.managerapi.statusControls;
 
-import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.config.managerapiconfig;
 
 public class statusController {
@@ -9,6 +8,7 @@ public class statusController {
     public boolean showAltChannels;
     public String chatChannel;
     public String server;
+    public String DisconnectMessage;
     public boolean globalPlayerList;
 
     /**
@@ -21,6 +21,7 @@ public class statusController {
         this.chatChannel = managerapiconfig.get().getString("chatChannel");
         this.globalPlayerList = managerapiconfig.get().getBoolean("globalPlayerList");
         this.server = managerapiconfig.get().getString("server-name");
+        this.DisconnectMessage = managerapiconfig.get().getString("disconnect-message");
     }
 
     /**
@@ -33,6 +34,7 @@ public class statusController {
         this.chatChannel = managerapiconfig.get().getString("chatChannel");
         this.globalPlayerList = managerapiconfig.get().getBoolean("globalPlayerList");
         this.server = managerapiconfig.get().getString("server-name");
+        this.DisconnectMessage = managerapiconfig.get().getString("disconnect-message");
     }
 
     /**
