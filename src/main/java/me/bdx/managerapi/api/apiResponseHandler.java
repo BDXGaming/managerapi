@@ -3,6 +3,7 @@ package me.bdx.managerapi.api;
 import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.commands.globalStaffCommand;
 import me.bdx.managerapi.customEvents.GlobalCommandReceive;
+import me.bdx.managerapi.customEvents.customPacketReceiveEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -130,7 +131,7 @@ public class apiResponseHandler {
         }
 
         //Handles all message broadcasts
-        else if(response.getString("type"). contains("broadcast")){
+        else if(response.getString("type").contains("broadcast")){
 
             //Global permission based broadcasts
             if(response.getString("type").contains("broadcast-perm")){
@@ -156,7 +157,16 @@ public class apiResponseHandler {
             }
         }
 
+        else if(response.getString("type").contains("customPacket")){
+            customPacketReceiveEvent event;
+            if(response.getString("type").contains("customPacket-string")){
+                event = new customPacketReceiveEvent(resp, response.getString("customPacket-string"));
+            }else{
+                event = new customPacketReceiveEvent(resp, response.getJSONObject("customPacket"));
+            }
+            Bukkit.getPluginManager().callEvent(event);
 
+        }
 
     }
 

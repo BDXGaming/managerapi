@@ -7,6 +7,7 @@ import com.earth2me.essentials.User;
 import com.neovisionaries.ws.client.*;
 import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.config.managerapiconfig;
+import me.bdx.managerapi.customEvents.customPacketSendEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -154,8 +155,45 @@ public class chatApi {
         ws.sendText(jsonMsg);
     }
 
-    public static void sendCustomPacket(JSONObject packet){
-        ws.sendText(packet.toString());
+    /**
+     * Websocket implementation to send custom packets
+     * @param packet JSONObject
+     * @throws JSONException e
+     */
+    public static void sendCustomPacket(JSONObject packet) throws JSONException {
+
+        String msg = new JSONObject()
+                .put("type", "customPacket")
+                .put("custompacket", packet)
+                .toString();
+
+        customPacketSendEvent event = new customPacketSendEvent(msg,packet);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if(!event.isCancelled()){
+            ws.sendText(msg);
+        }
+
+
+    }
+    /**
+     * Websocket implementation to send custom packets
+     * @param packet String
+     * @throws JSONException e
+     */
+    public static void sendCustomPacket(String packet) throws JSONException {
+
+        String msg = new JSONObject()
+                .put("type", "customPacket-string")
+                .put("custompacket", packet)
+                .toString();
+
+        customPacketSendEvent event = new customPacketSendEvent(msg, packet);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if(!event.isCancelled()){
+            ws.sendText(msg);
+        }
     }
 
     /**
