@@ -1,8 +1,6 @@
-package me.bdx.managerapi.chat;
+package me.bdx.managerapi.chatManagers;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.UUID;

@@ -1,7 +1,6 @@
-package me.bdx.managerapi.chat;
+package me.bdx.managerapi.chatManagers;
 
 import me.bdx.managerapi.api.chatApi;
-import org.bukkit.ChatColor;
 
 public class ChatSender {
 
