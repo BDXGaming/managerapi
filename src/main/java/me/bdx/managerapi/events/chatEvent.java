@@ -1,8 +1,6 @@
 package me.bdx.managerapi.events;
 
-import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.api.chatApi;
-import me.bdx.managerapi.chat.ChatSender;
 import me.bdx.managerapi.config.managerapiconfig;
 import me.bdx.managerapi.customEvents.GlobalChatEvent;
 import me.bdx.managerapi.utils.ChatColorHelper;

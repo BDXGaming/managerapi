@@ -129,6 +129,35 @@ public class apiResponseHandler {
             Managerapi.globalPlayers.setOnlinePlayerServers(dict);
         }
 
+        //Handles all message broadcasts
+        else if(response.getString("type"). contains("broadcast")){
+
+            //Global permission based broadcasts
+            if(response.getString("type").contains("broadcast-perm")){
+                String msg = response.getString("message");
+                String perm = response.getString("permission");
+                Bukkit.broadcast(msg, perm);
+            }
+
+            //Handles non-perm based broadcasts
+            else if(response.getString("type").contains("broadcast-all")){
+                String msg = response.getString("message");
+                Bukkit.broadcastMessage(msg);
+            }
+
+            //Handles all incoming channel-based message broadcasts
+            else if(response.getString("type").contains("broadcast-channel")){
+                if(response.getString("channel").equals(Managerapi.statusController.chatChannel)){
+                    if(response.getString("type").equals("broadcast-channel-perm")){
+                        Bukkit.broadcast(response.getString("message"), response.getString("permission"));
+                    }
+                    Bukkit.broadcastMessage(response.getString("message"));
+                }
+            }
+        }
+
+
+
     }
 
 

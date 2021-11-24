@@ -292,6 +292,103 @@ public class chatApi {
         ws.sendText(jsonMsg);
     }
 
+    /**
+     * Much like the Bukkit.broadcast() method, this allows for network-wide message broadcasting
+     * @param msg String
+     * @param permission String
+     */
+    public static void broadcast(String msg, String permission) {
+        String jsonMsg = null;
+        try {
+            jsonMsg = new JSONObject()
+                    .put("type", "broadcast-perm")
+                    .put("message", msg)
+                    .put("permission", permission)
+                    .toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ws.sendText(jsonMsg);
+    }
+
+    /**
+     * Much like the Bukkit.broadcast() method, this allows for network-wide message broadcasting
+     * @param msg String
+     */
+    public static void broadcast(String msg){
+        String jsonMsg = null;
+        try {
+            jsonMsg = new JSONObject()
+                    .put("type", "broadcast-all")
+                    .put("message", msg)
+                    .toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ws.sendText(jsonMsg);
+    }
+
+    /**
+     * Much like the Bukkit.broadcast() method, this allows for broadcasting to all servers on the given channel with the given permission
+     * @param msg String
+     */
+    public static void channelBroadcast(String msg, String channel, String permission){
+        String jsonMsg = null;
+        try {
+            jsonMsg = new JSONObject()
+                    .put("type", "broadcast-channel-perm")
+                    .put("channel", channel)
+                    .put("permission", permission)
+                    .put("message", msg)
+                    .toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ws.sendText(jsonMsg);
+    }
+
+    /**
+     * Much like the Bukkit.broadcast() method, this allows for broadcasting to all servers on the given channel
+     * @param msg String
+     */
+    public static void channelBroadcast(String msg, String channel){
+        String jsonMsg = null;
+        try {
+            jsonMsg = new JSONObject()
+                    .put("type", "broadcast-channel")
+                    .put("channel", channel)
+                    .put("message", msg)
+                    .toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ws.sendText(jsonMsg);
+    }
+
+    /**
+     * Much like the Bukkit.broadcast() method, this allows for broadcasting to all servers on the given channel
+     * This method uses the channel to which the current plugin instance is listening
+     * @param msg String
+     */
+    public static void channelBroadcast(String msg){
+        String jsonMsg = null;
+        try {
+            jsonMsg = new JSONObject()
+                    .put("type", "broadcast-channel")
+                    .put("channel", Managerapi.statusController.chatChannel)
+                    .put("message", msg)
+                    .toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        ws.sendText(jsonMsg);
+    }
+
 
     /**
      * Connect to the server.

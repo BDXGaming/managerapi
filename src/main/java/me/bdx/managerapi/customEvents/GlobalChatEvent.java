@@ -1,6 +1,5 @@
 package me.bdx.managerapi.customEvents;
 
-import me.bdx.managerapi.chat.ChatSender;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
