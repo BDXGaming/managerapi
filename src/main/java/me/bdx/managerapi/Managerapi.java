@@ -20,6 +20,7 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -89,6 +90,19 @@ public final class Managerapi extends JavaPlugin {
             e.printStackTrace();
         }
 
+        for(Player p: Bukkit.getOnlinePlayers()){
+            try {
+                chatApi.addPlayer(p);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            chatApi.syncPlayerLists();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         //Registers commands
         getCommand("chatcommand").setExecutor(new globalchatcommand());
         getCommand("managerapireload").setExecutor(new reloadCommand());
@@ -117,6 +131,15 @@ public final class Managerapi extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+
+        for(Player p: Bukkit.getOnlinePlayers()){
+            try {
+                chatApi.removePlayer(p);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         //Closes the API connection
         try {
