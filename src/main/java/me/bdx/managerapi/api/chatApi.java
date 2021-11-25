@@ -158,14 +158,18 @@ public class chatApi {
     /**
      * Websocket implementation to send custom packets
      * @param packet JSONObject
-     * @throws JSONException e
      */
-    public static void sendCustomPacket(JSONObject packet) throws JSONException {
+    public static void sendCustomPacket(JSONObject packet)  {
 
-        String msg = new JSONObject()
-                .put("type", "customPacket")
-                .put("custompacket", packet)
-                .toString();
+        String msg = null;
+        try {
+            msg = new JSONObject()
+                    .put("type", "customPacket")
+                    .put("custompacket", packet)
+                    .toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         customPacketSendEvent event = new customPacketSendEvent(msg,packet);
         Bukkit.getPluginManager().callEvent(event);
@@ -179,14 +183,18 @@ public class chatApi {
     /**
      * Websocket implementation to send custom packets
      * @param packet String
-     * @throws JSONException e
      */
-    public static void sendCustomPacket(String packet) throws JSONException {
+    public static void sendCustomPacket(String packet) {
 
-        String msg = new JSONObject()
-                .put("type", "customPacket-string")
-                .put("custompacket", packet)
-                .toString();
+        String msg = null;
+        try {
+            msg = new JSONObject()
+                    .put("type", "customPacket-string")
+                    .put("custompacket", packet)
+                    .toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         customPacketSendEvent event = new customPacketSendEvent(msg, packet);
         Bukkit.getPluginManager().callEvent(event);

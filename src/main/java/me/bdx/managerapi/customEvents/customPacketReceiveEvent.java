@@ -13,11 +13,13 @@ public class customPacketReceiveEvent extends Event implements Cancellable {
     private String customPacketString;
 
     public customPacketReceiveEvent(String rawPacket, JSONObject customPacket){
+        super(true);
         this.rawPacket = rawPacket;
         this.customPacket = customPacket;
     }
 
     public customPacketReceiveEvent(String rawPacket, String customPacket){
+        super(true);
         this.rawPacket = rawPacket;
         this.customPacketString = customPacket;
     }

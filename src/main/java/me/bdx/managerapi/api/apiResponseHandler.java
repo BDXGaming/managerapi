@@ -66,14 +66,14 @@ public class apiResponseHandler {
                     }
 
                     globalChatReceiveEvent globalEvent = new globalChatReceiveEvent(response);
-                    Bukkit.getPluginManager().callEvent(globalEvent);
+                    Bukkit.getServer().getPluginManager().callEvent(globalEvent);
 
                     if(!globalEvent.isCancelled()){
                         if(Managerapi.statusController.chatChannel.equalsIgnoreCase(response.getString("channel"))){
 
                             String formattedMessage = ChatColor.GRAY+"["+response.getString("server-name")+"] "+ChatColor.translateAlternateColorCodes('&',response.getString("playerDisplayName")) + ": " + c + response.getString("content");
                             chatChannelReceiveEvent event = new chatChannelReceiveEvent(formattedMessage, response.getString("content"), response.getString("server-name"), response.getString("playerDisplayName"), response.getString("playerRealName"), response.getString("channel"), c);
-                            Bukkit.getPluginManager().callEvent(event);
+                            Bukkit.getServer().getPluginManager().callEvent(event);
 
                             if(!event.isCancelled()){
                                 Bukkit.broadcast(event.getFormattedMessage(), "managerapi.chat");
@@ -171,13 +171,14 @@ public class apiResponseHandler {
         }
 
         else if(response.getString("type").contains("customPacket")){
-            customPacketReceiveEvent event;
+            Bukkit.getConsoleSender().sendMessage("customPacket: Received");
             if(response.getString("type").contains("customPacket-string")){
-                event = new customPacketReceiveEvent(resp, response.getString("customPacket-string"));
+                customPacketReceiveEvent event = new customPacketReceiveEvent(resp, response.getString("customPacket-string"));
+                Bukkit.getServer().getPluginManager().callEvent(event);
             }else{
-                event = new customPacketReceiveEvent(resp, response.getJSONObject("customPacket"));
+                customPacketReceiveEvent event = new customPacketReceiveEvent(resp, response.getJSONObject("custompacket"));
+                Bukkit.getServer().getPluginManager().callEvent(event);
             }
-            Bukkit.getPluginManager().callEvent(event);
 
         }
 
