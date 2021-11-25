@@ -3,7 +3,9 @@ package me.bdx.managerapi.api;
 import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.commands.globalStaffCommand;
 import me.bdx.managerapi.customEvents.GlobalCommandReceive;
+import me.bdx.managerapi.customEvents.chatChannelReceiveEvent;
 import me.bdx.managerapi.customEvents.customPacketReceiveEvent;
+import me.bdx.managerapi.customEvents.globalChatReceiveEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -63,29 +65,40 @@ public class apiResponseHandler {
                         c = ChatColor.GRAY;
                     }
 
-                    if(Managerapi.statusController.chatChannel.equalsIgnoreCase(response.getString("channel"))){
+                    globalChatReceiveEvent globalEvent = new globalChatReceiveEvent(response);
+                    Bukkit.getPluginManager().callEvent(globalEvent);
 
-                        Bukkit.broadcast(ChatColor.GRAY+"["+response.getString("server-name")+"] "+ChatColor.translateAlternateColorCodes('&',response.getString("playerDisplayName")) + ": " + c + response.getString("content"), "managerapi.chat");
-                    }
-                    else{
-                        for(UUID uuid: Managerapi.channelListeners.getListeners()){
-                            try {
-                                Player p = Bukkit.getPlayer(uuid);
-                                if (p != null) {
-                                    p.sendMessage(ChatColor.GRAY + "[" + response.getString("channel") + "]" + "[" + response.getString("server-name") + "] " + ChatColor.translateAlternateColorCodes('&', response.getString("playerDisplayName")) + ": " + c + response.getString("content"));
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                    if(!globalEvent.isCancelled()){
+                        if(Managerapi.statusController.chatChannel.equalsIgnoreCase(response.getString("channel"))){
+
+                            String formattedMessage = ChatColor.GRAY+"["+response.getString("server-name")+"] "+ChatColor.translateAlternateColorCodes('&',response.getString("playerDisplayName")) + ": " + c + response.getString("content");
+                            chatChannelReceiveEvent event = new chatChannelReceiveEvent(formattedMessage, response.getString("content"), response.getString("server-name"), response.getString("playerDisplayName"), response.getString("playerRealName"), response.getString("channel"), c);
+                            Bukkit.getPluginManager().callEvent(event);
+
+                            if(!event.isCancelled()){
+                                Bukkit.broadcast(event.getFormattedMessage(), "managerapi.chat");
                             }
 
+
+                        }
+                        else{
+                            for(UUID uuid: Managerapi.channelListeners.getListeners()){
+                                try {
+                                    Player p = Bukkit.getPlayer(uuid);
+                                    if (p != null) {
+                                        p.sendMessage(ChatColor.GRAY + "[" + response.getString("channel") + "]" + "[" + response.getString("server-name") + "] " + ChatColor.translateAlternateColorCodes('&', response.getString("playerDisplayName")) + ": " + c + response.getString("content"));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
                         }
                     }
+
                 }
 
-
             }
-
-
 
         }
 
