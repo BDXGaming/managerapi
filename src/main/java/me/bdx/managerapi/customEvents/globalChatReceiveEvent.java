@@ -24,6 +24,7 @@ public class globalChatReceiveEvent extends Event implements Cancellable {
      * @param packet JSONObject
      */
     public globalChatReceiveEvent(JSONObject packet){
+        super(true);
         this.globalChatPacket = packet;
         try {
             this.messageContent = packet.getString("content");

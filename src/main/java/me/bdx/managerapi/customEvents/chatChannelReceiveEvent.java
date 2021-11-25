@@ -30,6 +30,7 @@ public class chatChannelReceiveEvent extends Event implements Cancellable {
      * @param chatColor ChatColor
      */
     public chatChannelReceiveEvent(String formattedMessage, String messageContent, String server, String senderDisplayName, String senderName, String channel, ChatColor chatColor){
+        super(true);
         this.formattedMessage = formattedMessage;
         this.messageContent = messageContent;
         this.server = server;
