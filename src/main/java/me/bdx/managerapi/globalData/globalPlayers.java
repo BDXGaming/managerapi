@@ -1,5 +1,7 @@
 package me.bdx.managerapi.globalData;
 
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -50,5 +52,23 @@ public class globalPlayers {
      */
     public void setOnlinePlayerServers(HashMap<String, String> dict){
         this.onlinePlayerServers = dict;
+    }
+
+    /**
+     * Returns the name of the server for the given player
+     * @param p Player
+     * @return String
+     */
+    public String getPlayerServer(Player p){
+        return this.onlinePlayerServers.get(p.getName());
+    }
+
+    /**
+     * Returns the name of the server for the given player
+     * @param playerName String
+     * @return String
+     */
+    public String getPlayerServer(String playerName){
+        return this.onlinePlayerServers.get(playerName);
     }
 }
