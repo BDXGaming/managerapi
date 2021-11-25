@@ -11,7 +11,7 @@ public class actionbar {
      * @param text String
      * @param p Player
      */
-    public void sendActionBar(String text, Player p){
+    public static void sendActionBar(String text, Player p){
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(text));
     }
 }
