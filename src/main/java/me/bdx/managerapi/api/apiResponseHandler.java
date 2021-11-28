@@ -2,10 +2,7 @@ package me.bdx.managerapi.api;
 
 import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.commands.globalStaffCommand;
-import me.bdx.managerapi.customEvents.GlobalCommandReceive;
-import me.bdx.managerapi.customEvents.chatChannelReceiveEvent;
-import me.bdx.managerapi.customEvents.customPacketReceiveEvent;
-import me.bdx.managerapi.customEvents.globalChatReceiveEvent;
+import me.bdx.managerapi.customEvents.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -82,17 +79,21 @@ public class apiResponseHandler {
 
                         }
                         else{
-                            for(UUID uuid: Managerapi.channelListeners.getListeners()){
-                                try {
+                            String msg = ChatColor.GRAY + "[" + response.getString("channel") + "]" + "[" + response.getString("server-name") + "] " + ChatColor.translateAlternateColorCodes('&', response.getString("playerDisplayName")) + ": " + c + response.getString("content");
+                            altChatChannelReceiveEvent altChannelEvent = new altChatChannelReceiveEvent(msg, response.getString("content"),response.getString("server"), response.getString("playerDisplayName"),response.getString("playerName"), response.getString("channel"), c);
+                            Bukkit.getServer().getPluginManager().callEvent(altChannelEvent);
+
+                            if(!altChannelEvent.isCancelled()){
+                                msg = altChannelEvent.getFormattedMessage();
+                                for(UUID uuid: Managerapi.channelListeners.getListeners()){
                                     Player p = Bukkit.getPlayer(uuid);
                                     if (p != null) {
-                                        p.sendMessage(ChatColor.GRAY + "[" + response.getString("channel") + "]" + "[" + response.getString("server-name") + "] " + ChatColor.translateAlternateColorCodes('&', response.getString("playerDisplayName")) + ": " + c + response.getString("content"));
+                                        p.sendMessage(msg);
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-
                             }
+
+
                         }
                     }
 
