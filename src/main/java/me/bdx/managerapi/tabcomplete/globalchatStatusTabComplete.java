@@ -38,9 +38,7 @@ public class globalchatStatusTabComplete implements TabCompleter {
                 if (args.length == 2) {
 
                     if ((args[0].equalsIgnoreCase("enable"))|| args[0].equalsIgnoreCase("disable") || args[0].equalsIgnoreCase("status")){
-                        for (String t : options) {
-                            tab.add(t);
-                        }
+                        tab.addAll(Arrays.asList(options));
                     }
                     return tab;
                 }
