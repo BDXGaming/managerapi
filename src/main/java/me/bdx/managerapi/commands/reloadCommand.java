@@ -22,6 +22,7 @@ public class reloadCommand implements CommandExecutor {
         if(sender.hasPermission("managerapi.reload")){
 
             Bukkit.broadcast(ChatColor.RED + "[ManagerAPI]: "+ChatColor.YELLOW+"Plugin is reloading", "managerapi.reload");
+            //Removes all players who are on the server from the online player list
             for(Player p: Bukkit.getOnlinePlayers()){
                 try {
                     chatApi.removePlayer(p);
@@ -29,20 +30,28 @@ public class reloadCommand implements CommandExecutor {
                     e.printStackTrace();
                 }
             }
+            //Terminates the websocket connection (if exists)
             try {
                 chatApi.closeConn();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            //Gets the updated instance of the Config File
             managerapiconfig.reload();
+            //Reloads the stored values for the chatStatus trackers
             chatStatus.loadFromConfig();
+            //Reloads the stored values for general statusController values
             Managerapi.statusController.reload();
+
+            //Creates a new socket connection
             try {
                 chatApi.createSocketConnection();
             } catch (IOException | WebSocketException | JSONException e) {
                 e.printStackTrace();
             }
 
+            //Adds all online players to the online player list
             for(Player p: Bukkit.getOnlinePlayers()){
                 try {
                     chatApi.addPlayer(p);
@@ -51,6 +60,7 @@ public class reloadCommand implements CommandExecutor {
                     e.printStackTrace();
                 }
             }
+            //Ensures that playerlists are synced across all connected servers
             try {
                 chatApi.syncPlayerLists();
             } catch (JSONException e) {
