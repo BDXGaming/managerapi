@@ -172,7 +172,7 @@ public class apiResponseHandler {
         }
 
         else if(response.getString("type").contains("customPacket")){
-            Bukkit.getConsoleSender().sendMessage("customPacket: Received");
+            Bukkit.getLogger().info("[ManagerAPI]: Custom Packet Received" + resp);
             if(response.getString("type").contains("customPacket-string")){
                 customPacketReceiveEvent event = new customPacketReceiveEvent(resp, response.getString("customPacket-string"));
                 Bukkit.getServer().getPluginManager().callEvent(event);
