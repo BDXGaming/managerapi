@@ -18,6 +18,14 @@ disconnect-message: disconnect
 
 #Chat Settings
 #-----------------------------------------------------------------------------------------------------------------------
+
+#Custom Chats
+#Indicates whether or not the custom chats for the server are enabled or disabled
+#true to enable custom chats, false to disable all ManagerAPI custom chats (global chat, sc, dc)
+#To change individual chats adjust the settings under Chat Controls
+customChats: true
+
+#Chat Controls
 #These are the status indicators for the various chats made by the plugin
 #The incoming and outgoing status applies ONLY for globalchat
 #To toggle either /dc or /sc set the staff or dev chats to false

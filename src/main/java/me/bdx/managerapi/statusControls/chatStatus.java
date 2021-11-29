@@ -8,6 +8,7 @@ public class chatStatus {
     private static boolean devChatStatus;
     private static boolean incomingChatStatus;
     private static boolean outgoingChatStatus;
+    private static boolean customChatStatus;
 
     /**
     Sets all chat status values to true
@@ -39,11 +40,18 @@ public class chatStatus {
      * Loads the status values from the config file
      */
     public static void loadFromConfig(){
-        globalChatStatus = managerapiconfig.get().getBoolean("globalChatStatus");
-        staffChatStatus = managerapiconfig.get().getBoolean("staffChatStatus");
-        devChatStatus = managerapiconfig.get().getBoolean("devChatStatus");
-        incomingChatStatus = managerapiconfig.get().getBoolean("incomingChatStatus");
-        outgoingChatStatus = managerapiconfig.get().getBoolean("outgoingChatStatus");
+        customChatStatus = managerapiconfig.get().getBoolean("customChats");
+        if(!customChatStatus){
+            setFalse();
+        }else{
+            globalChatStatus = managerapiconfig.get().getBoolean("globalChatStatus");
+            staffChatStatus = managerapiconfig.get().getBoolean("staffChatStatus");
+            devChatStatus = managerapiconfig.get().getBoolean("devChatStatus");
+            incomingChatStatus = managerapiconfig.get().getBoolean("incomingChatStatus");
+            outgoingChatStatus = managerapiconfig.get().getBoolean("outgoingChatStatus");
+        }
+
+
     }
 
     /**
