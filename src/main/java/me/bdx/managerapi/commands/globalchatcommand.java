@@ -30,7 +30,7 @@ public class globalchatcommand implements CommandExecutor {
         User user = Managerapi.essentials.getUser(p);
         String name = user.getNick();
         for(String word: args){
-            msg.append(word + " ");
+            msg.append(word).append(" ");
         }
 
 
@@ -41,6 +41,7 @@ public class globalchatcommand implements CommandExecutor {
 
         } catch (Exception e) {
             e.printStackTrace();
+            p.sendMessage(ChatColor.RED + "Error sending message!");
         }
 
     }
@@ -178,25 +179,17 @@ public class globalchatcommand implements CommandExecutor {
                     StringBuilder msg = new StringBuilder();
 
                     for(String word: args){
-                        msg.append(word + " ");
+                        msg.append(word).append(" ");
                     }
                     User user = Managerapi.essentials.getUser(p);
                     String name = user.getNick();
 
                     try {
                         chatApi.sendMsg(p, msg.toString(), "chat-"+label, label);
-
-                        for(Player player: Bukkit.getServer().getOnlinePlayers()){
-
-                            if(player.hasPermission("managerapi.chatcommand")){
-                                player.sendMessage(ChatColor.GRAY +"(/"+ label+ ") " +"[" +managerapiconfig.get().getString("server-name")+"] " + ChatColor.translateAlternateColorCodes('&', name)+ ": " + ChatColor.LIGHT_PURPLE + msg);
-                            }
-
-                        }
-
-
+                        Bukkit.broadcast(ChatColor.GRAY +"(/"+ label+ ") " +"[" +managerapiconfig.get().getString("server-name")+"] " + ChatColor.translateAlternateColorCodes('&', name)+ ": " + ChatColor.LIGHT_PURPLE + msg, "managerapi.chatcommand");
                     } catch (Exception e) {
                         e.printStackTrace();
+                        sender.sendMessage(ChatColor.RED + "Error sending message!");
                     }
 
                     return true;
@@ -205,7 +198,7 @@ public class globalchatcommand implements CommandExecutor {
                     sender.sendMessage(ChatColor.RED + "You do not have the required permissions to use this command!");
                 }
             }else{
-                sender.sendMessage(ChatColor.RED + "StaffChat is currently disabled!");
+                sender.sendMessage(ChatColor.RED + "sc is currently disabled!");
                 return true;
             }
 
@@ -225,16 +218,11 @@ public class globalchatcommand implements CommandExecutor {
 
                     try {
                         chatApi.sendConMsg("Console", msg.toString(), "chat-" + label, label, "lred");
-
-                        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-
-                            player.sendMessage(ChatColor.GRAY + "(/" + label + ") " + "[" + managerapiconfig.get().getString("server-name") + "] " + ChatColor.WHITE + "Console" + ": " + ChatColor.LIGHT_PURPLE + msg);
-
-                        }
-
+                        Bukkit.broadcast(ChatColor.GRAY + "(/" + label + ") " + "[" + managerapiconfig.get().getString("server-name") + "] " + ChatColor.WHITE + "Console" + ": " + ChatColor.LIGHT_PURPLE + msg, "managerapi.chatcommand.devchat");
 
                     } catch (Exception e) {
                         e.printStackTrace();
+                        sender.sendMessage(ChatColor.RED + "Error sending message!");
                     }
 
                     return true;
