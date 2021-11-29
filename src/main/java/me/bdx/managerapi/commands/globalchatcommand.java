@@ -150,23 +150,16 @@ public class globalchatcommand implements CommandExecutor {
                     StringBuilder msg = new StringBuilder();
 
                     for(String word: args){
-                        msg.append(word + " ");
+                        msg.append(word).append(" ");
                     }
 
                     try {
                         chatApi.sendConMsg("Console", msg.toString(),"chat-"+label, label, "lred");
-
-                        for(Player player: Bukkit.getServer().getOnlinePlayers()){
-
-                            if(player.hasPermission("managerapi.chatcommand")){
-                                player.sendMessage(ChatColor.GRAY +"(/"+ label+ ") " +"[" +managerapiconfig.get().getString("server-name")+"] " + ChatColor.WHITE+ "Console" + ": " + ChatColor.LIGHT_PURPLE + msg);
-                            }
-
-                        }
-
+                        Bukkit.broadcast(ChatColor.GRAY +"(/"+ label+ ") " +"[" +managerapiconfig.get().getString("server-name")+"] " + ChatColor.WHITE+ "Console" + ": " + ChatColor.LIGHT_PURPLE + msg, "managerapi.chatcommand");
 
                     } catch (Exception e) {
                         e.printStackTrace();
+                        sender.sendMessage(ChatColor.RED + "Error sending message!");
                     }
 
                     return true;
