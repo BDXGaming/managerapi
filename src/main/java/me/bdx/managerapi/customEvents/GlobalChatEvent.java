@@ -1,5 +1,6 @@
 package me.bdx.managerapi.customEvents;
 
+import me.bdx.managerapi.utils.ChatColorHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -165,28 +166,21 @@ public class GlobalChatEvent extends Event implements Cancellable {
         return stringToColor(this.ChatColor);
     }
 
+    /**
+     * Changes the color of the message to the given String color if supported by ManagerAPI colors
+     * @param chatColor String
+     */
     public void setChatColor(String chatColor) {
         this.ChatColor = chatColor;
         this.isModified = true;
     }
 
+    /**
+     * Changes the color of the message to the given chatcolor if supported by ManagerAPI colors
+     * @param chatColor ChatColor
+     */
     public void setChatColor(ChatColor chatColor){
-        String c;
-
-        if(chatColor.equals(org.bukkit.ChatColor.DARK_RED)){
-            c = "dred";
-        }else if (chatColor.equals(org.bukkit.ChatColor.RED)){
-            c = "lred";
-        }else if(chatColor.equals(org.bukkit.ChatColor.AQUA)){
-            c = "blue";
-        }
-        else if (chatColor.equals(org.bukkit.ChatColor.WHITE)){
-            c = "white";
-        }else{
-            c = "grey";
-        }
-
-        this.ChatColor = c;
+        this.ChatColor = ChatColorHelper.ChatColorToString(chatColor);
         this.isModified = true;
     }
 }
