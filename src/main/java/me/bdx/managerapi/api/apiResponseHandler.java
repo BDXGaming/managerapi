@@ -28,8 +28,13 @@ public class apiResponseHandler {
 
             if(response.getString("type").equalsIgnoreCase("chat-sc")){
 
-                if(chatStatus.getStaffChatStatus()){
-                    Bukkit.broadcast(ChatColor.GRAY+"(/"+response.getString("chat-label")+") "+"["+response.getString("server-name")+"] "+response.getString("playerDisplayName") + ": " + ChatColor.LIGHT_PURPLE + response.getString("content"), "managerapi.chatcommand");
+                staffChatReceiveEvent scEvent = new staffChatReceiveEvent(response);
+                Bukkit.getServer().getPluginManager().callEvent(scEvent);
+
+                if(!scEvent.isCancelled()){
+                    if(chatStatus.getStaffChatStatus()){
+                        Bukkit.broadcast(scEvent.getFormattedMessage(), "managerapi.chatcommand");
+                    }
                 }
 
             }
