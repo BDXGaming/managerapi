@@ -1,9 +1,12 @@
 package me.bdx.managerapi.utils;
 
 import me.bdx.managerapi.Managerapi;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class playerHelper {
 
@@ -33,5 +36,13 @@ public class playerHelper {
      */
     public static String getPlayerDisplayName(String playerName){
         return Managerapi.essentials.getUser(playerName).getDisplayName();
+    }
+
+    public static String getPlayerPrefix(Player p){
+        return Managerapi.chat.getPlayerPrefix(p);
+    }
+
+    public static String getPlayerPrefix(UUID uuid){
+        return Managerapi.chat.getPlayerPrefix(Bukkit.getServer().getWorlds().get(0).getName(), Bukkit.getOfflinePlayer(uuid));
     }
 }
