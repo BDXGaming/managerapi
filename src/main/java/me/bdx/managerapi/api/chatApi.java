@@ -465,11 +465,11 @@ public class chatApi {
         ws = connect();
 
         // A text read from the standard input.
-        String jsonString = new JSONObject()
+        JSONObject jsonString = new JSONObject()
                 .put("uuid", "0b32abc9-d5e1-11eb-aaa4-000272a242dc")
-                .toString();
+                .put("server", Managerapi.statusController.server);
 
-        ws.sendText(jsonString);
+        ws.sendText(jsonString.toString());
 
     }
 

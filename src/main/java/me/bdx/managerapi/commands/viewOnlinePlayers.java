@@ -12,6 +12,7 @@ public class viewOnlinePlayers implements CommandExecutor {
         if(sender.hasPermission("managerapi.online")){
             sender.sendMessage(String.valueOf(Managerapi.globalPlayers.getOnlinePlayers()));
             sender.sendMessage(String.valueOf(Managerapi.globalPlayers.getOnlinePlayerServers()));
+            sender.sendMessage(String.valueOf(Managerapi.globalServers.getOnlineServers()));
             return true;
         }
         sender.sendMessage(ChatColor.RED + "You don't have the perms to use this command!");

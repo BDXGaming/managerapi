@@ -8,6 +8,7 @@ import me.bdx.managerapi.chatManagers.channelListeners;
 import me.bdx.managerapi.commands.*;
 import me.bdx.managerapi.config.managerapiconfig;
 import me.bdx.managerapi.globalData.globalPlayers;
+import me.bdx.managerapi.globalData.globalServers;
 import me.bdx.managerapi.statusControls.statusController;
 import me.bdx.managerapi.events.chatEvent;
 import me.bdx.managerapi.events.commandEvent;
@@ -39,6 +40,7 @@ public final class Managerapi extends JavaPlugin {
     public static statusController statusController;
     public static channelListeners channelListeners;
     public static globalPlayers globalPlayers;
+    public static globalServers globalServers;
 
     @Override
     public void onEnable() {
@@ -58,6 +60,7 @@ public final class Managerapi extends JavaPlugin {
         statusController = new statusController();
         channelListeners = new channelListeners();
         globalPlayers = new globalPlayers();
+        globalServers = new globalServers();
 
         if (essentialsPlugin.isEnabled() && (essentialsPlugin instanceof Essentials)) {
             essentials = (Essentials) essentialsPlugin;

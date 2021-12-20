@@ -188,6 +188,15 @@ public class apiResponseHandler {
 
         }
 
+        else if (response.getString("type").contains("updateServers")){
+            ArrayList<String> list = new ArrayList<>();
+            JSONArray onlineServers = response.getJSONArray("onlineServers");
+            for(int i= 0; i < onlineServers.length(); i++){
+                list.add((String) onlineServers.get(i));
+            }
+            Managerapi.globalServers.updateGlobalServers(list);
+        }
+
     }
 
 
