@@ -28,7 +28,7 @@ public class statusController {
      * Reloads the values from the config, allows for config values to be changed during runtime
      */
     public void reload(){
-        this.autoOp = managerapiconfig.get().getBoolean("autoOp");
+        this.autoOp = managerapiconfig.get().getBoolean("autoOP");
         this.deopOnJoin = managerapiconfig.get().getBoolean("deopOnJoin");
         this.showAltChannels = managerapiconfig.get().getBoolean("showAltChannels");
         this.chatChannel = managerapiconfig.get().getString("chatChannel");

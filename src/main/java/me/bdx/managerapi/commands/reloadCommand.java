@@ -70,9 +70,11 @@ public class reloadCommand implements CommandExecutor {
 
             return true;
 
+        }else{
+            sender.sendMessage(ChatColor.RED + "You do not have the required permissions to run this command!");
         }
 
 
-        return false;
+        return true;
     }
 }

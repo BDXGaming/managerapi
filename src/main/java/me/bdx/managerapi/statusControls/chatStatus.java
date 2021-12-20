@@ -40,7 +40,7 @@ public class chatStatus {
      * Loads the status values from the config file
      */
     public static void loadFromConfig(){
-        customChatStatus = managerapiconfig.get().getBoolean("customChats");
+        customChatStatus = true;//managerapiconfig.get().getBoolean("customChats");
         if(!customChatStatus){
             setFalse();
         }else{

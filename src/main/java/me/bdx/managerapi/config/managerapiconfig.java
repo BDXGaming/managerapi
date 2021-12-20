@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class managerapiconfig {
 
@@ -35,7 +36,8 @@ public class managerapiconfig {
     }
 
     public static void reload(){
-        file = new File(Bukkit.getServer().getPluginManager().getPlugin("managerapi").getDataFolder(), "config.yml");
+        File folder = new File(String.valueOf(Bukkit.getServer().getPluginManager().getPlugin("Managerapi").getDataFolder()));
+        File file = new File(folder, "config.yml");
         customfile = YamlConfiguration.loadConfiguration(file);
     }
 
