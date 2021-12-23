@@ -66,13 +66,9 @@ public class globalchatcommand implements CommandExecutor {
 
             if(!event.isCancelled()){
 
-                if(event.isModified()){
-                    msg = event.getMessage();
-                    fullmsg = event.getFullMessage();
-                    ChatColor cc = event.getChatColor();
-                    chatcolor = event.getChatColorString();
-                    fullmsg = ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + p.getDisplayName() + ": " + cc + msg;
-                }
+                msg = event.getMessage();
+                chatcolor = event.getChatColorString();
+                fullmsg = event.getFullMessage();
 
 
 

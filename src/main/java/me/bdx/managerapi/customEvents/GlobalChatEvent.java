@@ -1,5 +1,7 @@
 package me.bdx.managerapi.customEvents;
 
+import me.bdx.managerapi.Managerapi;
+import me.bdx.managerapi.config.managerapiconfig;
 import me.bdx.managerapi.utils.ChatColorHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,7 +19,7 @@ public class GlobalChatEvent extends Event implements Cancellable {
     private String fullMessage;
     private String chat_channel;
     private String sender;
-    private String ChatColor;
+    private String chatColor;
 
     /**
      *
@@ -33,7 +35,7 @@ public class GlobalChatEvent extends Event implements Cancellable {
         this.isCancelled = false;
         this.isModified = false;
         this.fullMessage = fullMessage;
-        this.ChatColor = ChatColor;
+        this.chatColor = ChatColor;
     }
 
     /**
@@ -52,7 +54,7 @@ public class GlobalChatEvent extends Event implements Cancellable {
         this.isCancelled = false;
         this.isModified = false;
         this.fullMessage = fullMessage;
-        this.ChatColor = ChatColor;
+        this.chatColor = ChatColor;
     }
 
     /**
@@ -70,7 +72,7 @@ public class GlobalChatEvent extends Event implements Cancellable {
         this.isCancelled = false;
         this.isModified = false;
         this.fullMessage = fullMessage;
-        this.ChatColor = ChatColor;
+        this.chatColor = ChatColor;
     }
 
     @Override
@@ -94,7 +96,6 @@ public class GlobalChatEvent extends Event implements Cancellable {
      *
      * @param fullMessage The new full String Message
      */
-    @Deprecated
     public void setFullMessage(String fullMessage){
         this.fullMessage = fullMessage;
         this.isModified = true;
@@ -106,7 +107,10 @@ public class GlobalChatEvent extends Event implements Cancellable {
      * @return void
      */
     public String getFullMessage(){
-        return this.fullMessage;
+        if(isModified){
+            return (ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + Managerapi.PlayerHelper.getPlayerDisplayName(player) + ": " + chatColor + message);
+        }
+        return fullMessage;
     }
 
     public boolean isModified(){
@@ -136,7 +140,6 @@ public class GlobalChatEvent extends Event implements Cancellable {
      */
     public void editMessage(String msg){
         this.message = msg;
-        this.isModified = true;
     }
 
     public ChatColor stringToColor(String chatcolor){
@@ -159,11 +162,11 @@ public class GlobalChatEvent extends Event implements Cancellable {
     }
 
     public String getChatColorString(){
-        return this.ChatColor;
+        return this.chatColor;
     }
 
     public ChatColor getChatColor(){
-        return stringToColor(this.ChatColor);
+        return stringToColor(this.chatColor);
     }
 
     /**
@@ -171,8 +174,7 @@ public class GlobalChatEvent extends Event implements Cancellable {
      * @param chatColor String
      */
     public void setChatColor(String chatColor) {
-        this.ChatColor = chatColor;
-        this.isModified = true;
+        this.chatColor = chatColor;
     }
 
     /**
@@ -180,7 +182,6 @@ public class GlobalChatEvent extends Event implements Cancellable {
      * @param chatColor ChatColor
      */
     public void setChatColor(ChatColor chatColor){
-        this.ChatColor = ChatColorHelper.ChatColorToString(chatColor);
-        this.isModified = true;
+        this.chatColor = ChatColorHelper.ChatColorToString(chatColor);
     }
 }

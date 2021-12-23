@@ -51,7 +51,7 @@ public class chatApi {
                 .toString();
 
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
 
     }
 
@@ -81,7 +81,7 @@ public class chatApi {
                 .toString();
 
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
 
     }
 
@@ -109,7 +109,7 @@ public class chatApi {
                 .put("channel", Managerapi.statusController.chatChannel)
                 .toString();
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
     /**
@@ -137,7 +137,7 @@ public class chatApi {
                 .toString();
 
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
 
     }
 
@@ -152,14 +152,14 @@ public class chatApi {
                 .put("sender", sender)
                 .toString();
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
     /**
      * Websocket implementation to send custom packets
      * @param packet JSONObject
      */
-    public static void sendCustomPacket(JSONObject packet)  {
+    public void sendCustomPacket(JSONObject packet)  {
 
         String msg = null;
         try {
@@ -175,7 +175,7 @@ public class chatApi {
         Bukkit.getPluginManager().callEvent(event);
 
         if(!event.isCancelled()){
-            ws.sendText(msg);
+            send(msg);
         }
 
 
@@ -184,7 +184,7 @@ public class chatApi {
      * Websocket implementation to send custom packets
      * @param packet String
      */
-    public static void sendCustomPacket(String packet) {
+    public void sendCustomPacket(String packet) {
 
         String msg = null;
         try {
@@ -200,7 +200,7 @@ public class chatApi {
         Bukkit.getPluginManager().callEvent(event);
 
         if(!event.isCancelled()){
-            ws.sendText(msg);
+            send(msg);
         }
     }
 
@@ -213,7 +213,7 @@ public class chatApi {
                 .put("type", "getStaff")
                 .toString();
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
 
     }
 
@@ -230,7 +230,7 @@ public class chatApi {
                 .put("type", "removeStaff")
                 .toString();
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
 
     }
 
@@ -249,7 +249,7 @@ public class chatApi {
                 .put("type", "addStaff")
                 .toString();
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
 
     }
 
@@ -270,7 +270,7 @@ public class chatApi {
                 .put("type", "addStaff")
                 .toString();
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
 
     }
 
@@ -287,7 +287,7 @@ public class chatApi {
                 .put("type", "addPlayer")
                 .toString();
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
     /**
@@ -302,7 +302,7 @@ public class chatApi {
                 .put("type", "removePlayer")
                 .toString();
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
     /**
@@ -313,7 +313,7 @@ public class chatApi {
         String jsonMsg = new JSONObject()
                 .put("type", "getPlayerList")
                 .toString();
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
     /**
@@ -324,7 +324,7 @@ public class chatApi {
         String jsonMsg = new JSONObject()
                 .put("type", "getPlayerServers")
                 .toString();
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
     /**
@@ -335,7 +335,7 @@ public class chatApi {
         String jsonMsg = new JSONObject()
                 .put("type", "syncPlayerList")
                 .toString();
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
     /**
@@ -355,7 +355,7 @@ public class chatApi {
             e.printStackTrace();
         }
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
     /**
@@ -373,7 +373,7 @@ public class chatApi {
             e.printStackTrace();
         }
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
     /**
@@ -393,7 +393,7 @@ public class chatApi {
             e.printStackTrace();
         }
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
     /**
@@ -412,7 +412,7 @@ public class chatApi {
             e.printStackTrace();
         }
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
     /**
@@ -421,18 +421,17 @@ public class chatApi {
      * @param msg String
      */
     public static void channelBroadcast(String msg){
-        String jsonMsg = null;
+        JSONObject jsonMsg = null;
         try {
             jsonMsg = new JSONObject()
                     .put("type", "broadcast-channel")
                     .put("channel", Managerapi.statusController.chatChannel)
-                    .put("message", msg)
-                    .toString();
+                    .put("message", msg);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
 
@@ -469,7 +468,7 @@ public class chatApi {
                 .put("uuid", "0b32abc9-d5e1-11eb-aaa4-000272a242dc")
                 .put("server", Managerapi.statusController.server);
 
-        ws.sendText(jsonString.toString());
+        Managerapi.managerapi.getChatapi().send(jsonString);
 
     }
 
@@ -479,7 +478,7 @@ public class chatApi {
                 .put("type", Managerapi.statusController.DisconnectMessage)
                 .toString();
 
-        ws.sendText(jsonMsg);
+        Managerapi.managerapi.getChatapi().send(jsonMsg);
         ws.disconnect();
     }
 
@@ -490,6 +489,24 @@ public class chatApi {
     private static BufferedReader getInput() throws IOException
     {
         return new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    /**
+     * Sends the given json object to the websocket server
+     * Not recommended for use as handler may not be able to interpret fully custom packets
+     * @param json JSONObject
+     */
+    public void send(JSONObject json){
+        ws.sendText(json.toString());
+    }
+
+    /**
+     * Sends the given jsonString object to the websocket server
+     * Not recommended for use as handler may not be able to interpret fully custom packets
+     * @param jsonString String
+     */
+    public void send(String jsonString){
+        ws.sendText(jsonString);
     }
 
 }

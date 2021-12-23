@@ -17,6 +17,8 @@ import me.bdx.managerapi.events.leaveEvent;
 import me.bdx.managerapi.handlers.globalCommandHandler;
 import me.bdx.managerapi.statusControls.chatStatus;
 import me.bdx.managerapi.tabcomplete.globalchatStatusTabComplete;
+import me.bdx.managerapi.utils.actionbar;
+import me.bdx.managerapi.utils.playerHelper;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
@@ -41,6 +43,10 @@ public final class Managerapi extends JavaPlugin {
     public static channelListeners channelListeners;
     public static globalPlayers globalPlayers;
     public static globalServers globalServers;
+    public static globalChat GlobalChat;
+    public static playerHelper PlayerHelper;
+    public static actionbar actionbarHelper;
+    private static chatApi chatapi;
 
     @Override
     public void onEnable() {
@@ -61,6 +67,10 @@ public final class Managerapi extends JavaPlugin {
         channelListeners = new channelListeners();
         globalPlayers = new globalPlayers();
         globalServers = new globalServers();
+        GlobalChat = new globalChat();
+        PlayerHelper = new playerHelper();
+        actionbarHelper = new actionbar();
+        chatapi = new chatApi();
 
         if (essentialsPlugin.isEnabled() && (essentialsPlugin instanceof Essentials)) {
             essentials = (Essentials) essentialsPlugin;
@@ -143,7 +153,6 @@ public final class Managerapi extends JavaPlugin {
             }
         }
 
-
         //Closes the API connection
         try {
             chatApi.closeConn();
@@ -155,9 +164,31 @@ public final class Managerapi extends JavaPlugin {
 
     }
 
-
     public static Chat getChat() {
         return chat;
     }
+    public Chat getChatInstance(){ return chat;}
+    public Permission getPermission(){return  permission;}
+    public statusController getStatusController(){return statusController;}
+    public Essentials getEssentials(){
+        return essentials;
+    }
+    public channelListeners getChannelListeners(){return channelListeners;}
+    public globalPlayers getGlobalPlayers(){
+        return globalPlayers;
+    }
+    public globalServers getGlobalServers(){
+        return globalServers;
+    }
+    public globalChat getGlobalChat(){
+        return GlobalChat;
+    }
+    public playerHelper getPlayerHelper(){
+        return PlayerHelper;
+    }
+    public actionbar getActionbarHelper(){
+        return actionbarHelper;
+    }
+    public chatApi getChatapi(){ return chatapi; }
 
 }

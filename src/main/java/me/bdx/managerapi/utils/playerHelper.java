@@ -15,7 +15,7 @@ public class playerHelper {
      * @param p Player
      * @return String
      */
-    public static String getPlayerDisplayName(Player p){
+    public String getPlayerDisplayName(Player p){
         return ChatColor.translateAlternateColorCodes('&',  Managerapi.essentials.getUser(p).getNick());
     }
 
@@ -24,7 +24,7 @@ public class playerHelper {
      * @param p OfflinePlayer
      * @return String
      */
-    public static String getPlayerDisplayName(OfflinePlayer p){
+    public String getPlayerDisplayName(OfflinePlayer p){
         String name = p.getName();
         return Managerapi.essentials.getUser(name).getDisplayName();
     }
@@ -34,15 +34,15 @@ public class playerHelper {
      * @param playerName String
      * @return String
      */
-    public static String getPlayerDisplayName(String playerName){
+    public String getPlayerDisplayName(String playerName){
         return Managerapi.essentials.getUser(playerName).getDisplayName();
     }
 
-    public static String getPlayerPrefix(Player p){
+    public String getPlayerPrefix(Player p){
         return Managerapi.chat.getPlayerPrefix(p);
     }
 
-    public static String getPlayerPrefix(UUID uuid){
+    public String getPlayerPrefix(UUID uuid){
         return Managerapi.chat.getPlayerPrefix(Bukkit.getServer().getWorlds().get(0).getName(), Bukkit.getOfflinePlayer(uuid));
     }
 }
