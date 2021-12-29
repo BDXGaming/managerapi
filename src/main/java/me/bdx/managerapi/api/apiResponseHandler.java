@@ -176,11 +176,12 @@ public class apiResponseHandler {
             }
         }
 
-        else if(response.getString("type").contains("customPacket")){
-            Bukkit.getLogger().info("[ManagerAPI]: Custom Packet Received" + resp);
+        else if(response.getString("type").contains("customPacket") || response.getString("type").contains("customPacket-string")){
+            Bukkit.getLogger().info("[ManagerAPI]: Custom Packet Received" + resp); //Logs all incoming custom packets
             if(response.getString("type").contains("customPacket-string")){
-                customPacketReceiveEvent event = new customPacketReceiveEvent(resp, response.getString("customPacket-string"));
+                customPacketReceiveEvent event = new customPacketReceiveEvent(resp,response);
                 Bukkit.getServer().getPluginManager().callEvent(event);
+
             }else{
                 customPacketReceiveEvent event = new customPacketReceiveEvent(resp, response.getJSONObject("custompacket"));
                 Bukkit.getServer().getPluginManager().callEvent(event);

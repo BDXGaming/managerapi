@@ -18,10 +18,11 @@ public class customPacketReceiveEvent extends Event implements Cancellable {
         this.customPacket = customPacket;
     }
 
-    public customPacketReceiveEvent(String rawPacket, String customPacket){
+    public customPacketReceiveEvent(String rawPacket, JSONObject packet, String customPacketString){
         super(true);
         this.rawPacket = rawPacket;
-        this.customPacketString = customPacket;
+        this.customPacket = packet;
+        this.customPacketString = customPacketString;
     }
 
     @Override
@@ -55,4 +56,6 @@ public class customPacketReceiveEvent extends Event implements Cancellable {
     public String getCustomPacketString() {
         return customPacketString;
     }
+
+    public String getEventName(){return "customPacketReceiveEvent";}
 }
