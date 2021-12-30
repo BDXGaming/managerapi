@@ -10,10 +10,10 @@
 
 #Below are the API Config Options
 #The server-name is the name that will be used for the API
-#The api-address is the ip-address of the websocket server
+#The api-address is the ip-address of the websocket server. Format is ws://address:port
 #If you are using a proxy (such as Bungeecord) set the server-name to the same as the name in the proxy
 server-name: Server
-api-address: ws://192.168.0.140:5000
+api-address: ws://127.0.0.1:5000 #Format is ws://address:port
 disconnect-message: disconnect
 
 #Chat Settings
