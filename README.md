@@ -1,4 +1,4 @@
-# ManagerAPI
+# ManagerAPI Pre Release
 Exposing minecraft to a new level of connection
 
 ## Goals
