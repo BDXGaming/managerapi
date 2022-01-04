@@ -85,7 +85,7 @@ public class apiResponseHandler {
                         }
                         else{
 
-                            String msg = ChatColor.GRAY + "[" + response.getString("channel") + "]" + "[" + response.getString("server-name") + "] " + ChatColor.translateAlternateColorCodes('&', response.getString("playerDisplayName")) + ": " + c + response.getString("content");
+                            String msg = ChatColor.GRAY + "(" + response.getString("channel") + ")" + "[" + response.getString("server-name") + "] " + ChatColor.translateAlternateColorCodes('&', response.getString("playerDisplayName")) + ": " + c + response.getString("content");
                             altChatChannelReceiveEvent altChannelEvent = new altChatChannelReceiveEvent(msg, response.getString("content"),response.getString("server-name"), response.getString("playerDisplayName"),response.getString("playerRealName"), response.getString("channel"), c);
                             Bukkit.getServer().getPluginManager().callEvent(altChannelEvent);
 

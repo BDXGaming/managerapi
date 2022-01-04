@@ -60,7 +60,7 @@ public class altChatChannelReceiveEvent extends Event implements Cancellable {
 
     public String getFormattedMessage() {
         if(!isFormatModified){
-            return ChatColor.GRAY+ "[" + this.channel + "]"+"["+this.server+"] "+ChatColor.translateAlternateColorCodes('&',this.senderDisplayName )+ ": " + this.chatColor + this.messageContent;
+            return ChatColor.GRAY+ "(" + this.channel + ")"+"["+this.server+"] "+ChatColor.translateAlternateColorCodes('&',this.senderDisplayName )+ ": " + this.chatColor + this.messageContent;
         }
         return formattedMessage;
     }
