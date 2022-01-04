@@ -17,12 +17,12 @@ public class toggleChannels implements CommandExecutor {
             if(sender instanceof Player){
                 Player p = (Player) sender;
 
-                if(Managerapi.channelListeners.checkForListener(p.getUniqueId())){
-                    Managerapi.channelListeners.removeListener(p);
+                if(Managerapi.managerapi.getChannelListeners().checkForListener(p.getUniqueId())){
+                    Managerapi.managerapi.getChannelListeners().removeListener(p);
                     sender.sendMessage(ChatColor.YELLOW + "You are no longer listening to other channels!");
                 }
                 else{
-                    Managerapi.channelListeners.addPlayerListener(p);
+                    Managerapi.managerapi.getChannelListeners().addPlayerListener(p);
                     sender.sendMessage(ChatColor.GREEN + "You are now listening to all chat channels!");
                 }
                 return true;

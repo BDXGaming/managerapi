@@ -84,13 +84,14 @@ public class apiResponseHandler {
 
                         }
                         else{
+
                             String msg = ChatColor.GRAY + "[" + response.getString("channel") + "]" + "[" + response.getString("server-name") + "] " + ChatColor.translateAlternateColorCodes('&', response.getString("playerDisplayName")) + ": " + c + response.getString("content");
-                            altChatChannelReceiveEvent altChannelEvent = new altChatChannelReceiveEvent(msg, response.getString("content"),response.getString("server"), response.getString("playerDisplayName"),response.getString("playerName"), response.getString("channel"), c);
+                            altChatChannelReceiveEvent altChannelEvent = new altChatChannelReceiveEvent(msg, response.getString("content"),response.getString("server-name"), response.getString("playerDisplayName"),response.getString("playerRealName"), response.getString("channel"), c);
                             Bukkit.getServer().getPluginManager().callEvent(altChannelEvent);
 
                             if(!altChannelEvent.isCancelled()){
                                 msg = altChannelEvent.getFormattedMessage();
-                                for(UUID uuid: Managerapi.channelListeners.getListeners()){
+                                for(UUID uuid: Managerapi.managerapi.getChannelListeners().getListeners()){
                                     Player p = Bukkit.getPlayer(uuid);
                                     if (p != null) {
                                         p.sendMessage(msg);
