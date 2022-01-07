@@ -15,6 +15,7 @@
 server-name: Server
 api-address: ws://127.0.0.1:5000 #Format is ws://address:port
 disconnect-message: disconnect
+api-token: 0b32abc9-d5e1-11eb-aaa4-000272a242dc #Enter your Custom Token Here, Default is a UUID used for demonstration
 
 #Chat Settings
 #-----------------------------------------------------------------------------------------------------------------------

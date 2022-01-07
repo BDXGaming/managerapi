@@ -1,6 +1,8 @@
 package me.bdx.managerapi.statusControls;
 
 import me.bdx.managerapi.config.managerapiconfig;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public class statusController {
     public boolean autoOp;
@@ -10,31 +12,36 @@ public class statusController {
     public String server;
     public String DisconnectMessage;
     public boolean globalPlayerList;
+    public String apiToken;
 
     /**
      * Creates a new status controller for Managerapi
      */
     public statusController(){
-        this.autoOp = managerapiconfig.get().getBoolean("autoOP");
-        this.deopOnJoin = managerapiconfig.get().getBoolean("deopOnJoin");
-        this.showAltChannels = managerapiconfig.get().getBoolean("showAltChannels");
-        this.chatChannel = managerapiconfig.get().getString("chatChannel");
-        this.globalPlayerList = managerapiconfig.get().getBoolean("globalPlayerList");
+        FileConfiguration configuration = managerapiconfig.get();
+        this.autoOp = configuration.getBoolean("autoOP");
+        this.deopOnJoin = configuration.getBoolean("deopOnJoin");
+        this.showAltChannels = configuration.getBoolean("showAltChannels");
+        this.chatChannel = configuration.getString("chatChannel");
+        this.globalPlayerList = configuration.getBoolean("globalPlayerList");
         this.server = managerapiconfig.get().getString("server-name");
-        this.DisconnectMessage = managerapiconfig.get().getString("disconnect-message");
+        this.DisconnectMessage = configuration.getString("disconnect-message");
+        this.apiToken = configuration.getString("api-token");
     }
 
     /**
      * Reloads the values from the config, allows for config values to be changed during runtime
      */
     public void reload(){
-        this.autoOp = managerapiconfig.get().getBoolean("autoOP");
-        this.deopOnJoin = managerapiconfig.get().getBoolean("deopOnJoin");
-        this.showAltChannels = managerapiconfig.get().getBoolean("showAltChannels");
-        this.chatChannel = managerapiconfig.get().getString("chatChannel");
-        this.globalPlayerList = managerapiconfig.get().getBoolean("globalPlayerList");
-        this.server = managerapiconfig.get().getString("server-name");
-        this.DisconnectMessage = managerapiconfig.get().getString("disconnect-message");
+        FileConfiguration configuration = managerapiconfig.get();
+        this.autoOp = configuration.getBoolean("autoOP");
+        this.deopOnJoin = configuration.getBoolean("deopOnJoin");
+        this.showAltChannels = configuration.getBoolean("showAltChannels");
+        this.chatChannel = configuration.getString("chatChannel");
+        this.globalPlayerList = configuration.getBoolean("globalPlayerList");
+        this.server = configuration.getString("server-name");
+        this.DisconnectMessage = configuration.getString("disconnect-message");
+        this.apiToken = configuration.getString("api-token");
     }
 
     /**

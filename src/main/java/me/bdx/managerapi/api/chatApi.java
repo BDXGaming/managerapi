@@ -3,17 +3,14 @@ package me.bdx.managerapi.api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import com.earth2me.essentials.User;
 import com.neovisionaries.ws.client.*;
 import me.bdx.managerapi.Managerapi;
 import me.bdx.managerapi.config.managerapiconfig;
 import me.bdx.managerapi.customEvents.customPacketSendEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 public class chatApi {
 
@@ -66,7 +63,6 @@ public class chatApi {
      */
     public static void sendMsg(Player sender, String msg, String type, String label, String chatcolor) throws Exception
     {
-
 
         String jsonMsg = new JSONObject()
                 .put("playerDisplayName", Managerapi.essentials.getUser(sender).getNick())
@@ -431,12 +427,15 @@ public class chatApi {
             e.printStackTrace();
         }
 
+        assert jsonMsg != null;
         Managerapi.managerapi.getChatapi().send(jsonMsg);
     }
 
-
     /**
-     * Connect to the server.
+     * Creates the connection to the websocket server
+     * @return Websocket The instance of the websocket connection
+     * @throws IOException Thrown during a connection error
+     * @throws WebSocketException Thrown during connection error
      */
     private static WebSocket connect() throws IOException, WebSocketException
     {
@@ -444,7 +443,7 @@ public class chatApi {
                 .setConnectionTimeout(TIMEOUT)
                 .createSocket(SERVER)
                 .addListener(new WebSocketAdapter() {
-                    // A text message arrived from the server.
+                    //Sends all incoming TextMessages to the apiResponseHandler
                     public void onTextMessage(WebSocket websocket, String message) throws JSONException {
                         apiResponseHandler.handleResponse(message);
                     }
@@ -463,15 +462,19 @@ public class chatApi {
 
         ws = connect();
 
-        // A text read from the standard input.
+        //Connects to the websocket server and sends token for connection verification
         JSONObject jsonString = new JSONObject()
-                .put("uuid", "0b32abc9-d5e1-11eb-aaa4-000272a242dc")
+                .put("uuid", Managerapi.statusController.apiToken)
                 .put("server", Managerapi.statusController.server);
 
         Managerapi.managerapi.getChatapi().send(jsonString);
 
     }
 
+    /**
+     * Closes the connection with the Websocket server
+     * @throws JSONException Thrown if error occurs in creating the JSON message object
+     */
     public static void closeConn() throws JSONException {
 
         String jsonMsg = new JSONObject()
@@ -480,15 +483,7 @@ public class chatApi {
 
         Managerapi.managerapi.getChatapi().send(jsonMsg);
         ws.disconnect();
-    }
-
-
-    /**
-     * Wrap the standard input with BufferedReader.
-     */
-    private static BufferedReader getInput() throws IOException
-    {
-        return new BufferedReader(new InputStreamReader(System.in));
+        ws.sendClose();
     }
 
     /**
