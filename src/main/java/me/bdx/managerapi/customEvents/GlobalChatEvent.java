@@ -1,7 +1,7 @@
 package me.bdx.managerapi.customEvents;
 
 import me.bdx.managerapi.Managerapi;
-import me.bdx.managerapi.config.managerapiconfig;
+import me.bdx.managerapi.config.Managerapiconfig;
 import me.bdx.managerapi.utils.ChatColorHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -108,7 +108,7 @@ public class GlobalChatEvent extends Event implements Cancellable {
      */
     public String getFullMessage(){
         if(isModified){
-            return (ChatColor.GRAY +"[" + managerapiconfig.get().getString("server-name")+"] " + Managerapi.PlayerHelper.getPlayerDisplayName(player) + ": " + chatColor + message);
+            return (ChatColor.GRAY +"[" + Managerapiconfig.get().getString("server-name")+"] " + Managerapi.PlayerHelper.getPlayerDisplayName(player) + ": " + chatColor + message);
         }
         return fullMessage;
     }

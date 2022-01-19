@@ -2,23 +2,23 @@ package me.bdx.managerapi;
 
 import com.earth2me.essentials.Essentials;
 import com.neovisionaries.ws.client.WebSocketException;
-import me.bdx.managerapi.api.chatApi;
+import me.bdx.managerapi.api.ChatApi;
 import me.bdx.managerapi.chatManagers.ChatSender;
 import me.bdx.managerapi.chatManagers.channelListeners;
 import me.bdx.managerapi.commands.*;
-import me.bdx.managerapi.config.managerapiconfig;
-import me.bdx.managerapi.globalData.globalPlayers;
-import me.bdx.managerapi.globalData.globalServers;
-import me.bdx.managerapi.statusControls.statusController;
-import me.bdx.managerapi.events.chatEvent;
-import me.bdx.managerapi.events.commandEvent;
-import me.bdx.managerapi.events.joinEvent;
-import me.bdx.managerapi.events.leaveEvent;
-import me.bdx.managerapi.handlers.globalCommandHandler;
-import me.bdx.managerapi.statusControls.chatStatus;
-import me.bdx.managerapi.tabcomplete.globalchatStatusTabComplete;
-import me.bdx.managerapi.utils.actionbar;
-import me.bdx.managerapi.utils.playerHelper;
+import me.bdx.managerapi.config.Managerapiconfig;
+import me.bdx.managerapi.globalData.GlobalPlayers;
+import me.bdx.managerapi.globalData.GlobalServers;
+import me.bdx.managerapi.statusControls.StatusController;
+import me.bdx.managerapi.events.ChatEventHandler;
+import me.bdx.managerapi.events.CommandEventHandler;
+import me.bdx.managerapi.events.JoinEventHandler;
+import me.bdx.managerapi.events.LeaveEventHandler;
+import me.bdx.managerapi.handlers.GlobalCommandHandler;
+import me.bdx.managerapi.statusControls.ChatStatus;
+import me.bdx.managerapi.tabcomplete.GlobalchatStatusTabComplete;
+import me.bdx.managerapi.utils.ActionbarHelper;
+import me.bdx.managerapi.utils.PlayerHelper;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
@@ -38,15 +38,15 @@ public final class Managerapi extends JavaPlugin {
     public static Permission permission;
     public static Managerapi managerapi;
     public static ChatSender chatSender;
-    public static globalCommandHandler commandHandler;
-    public static statusController statusController;
+    public static GlobalCommandHandler commandHandler;
+    public static StatusController statusController;
     public static channelListeners channelListeners;
-    public static globalPlayers globalPlayers;
-    public static globalServers globalServers;
-    public static globalChat GlobalChat;
-    public static playerHelper PlayerHelper;
-    public static actionbar actionbarHelper;
-    private static chatApi chatapi;
+    public static GlobalPlayers globalPlayers;
+    public static GlobalServers globalServers;
+    public static me.bdx.managerapi.GlobalChat GlobalChat;
+    public static me.bdx.managerapi.utils.PlayerHelper PlayerHelper;
+    public static ActionbarHelper actionbarHelper;
+    private static ChatApi chatapi;
 
     @Override
     public void onEnable() {
@@ -55,22 +55,22 @@ public final class Managerapi extends JavaPlugin {
         Plugin essentialsPlugin = Bukkit.getPluginManager().getPlugin("Essentials");
 
         managerapi = this;
-        commandHandler = new globalCommandHandler();
+        commandHandler = new GlobalCommandHandler();
 
         //Sets up the config files for the plugin
-        managerapiconfig.setup();
+        Managerapiconfig.setup();
 
         //Loads the chatStatus values from the config
-        chatStatus.loadFromConfig();
+        ChatStatus.loadFromConfig();
 
-        statusController = new statusController();
+        statusController = new StatusController();
         channelListeners = new channelListeners();
-        globalPlayers = new globalPlayers();
-        globalServers = new globalServers();
-        GlobalChat = new globalChat();
-        PlayerHelper = new playerHelper();
-        actionbarHelper = new actionbar();
-        chatapi = new chatApi();
+        globalPlayers = new GlobalPlayers();
+        globalServers = new GlobalServers();
+        GlobalChat = new GlobalChat();
+        PlayerHelper = new PlayerHelper();
+        actionbarHelper = new ActionbarHelper();
+        chatapi = new ChatApi();
 
         if (essentialsPlugin.isEnabled() && (essentialsPlugin instanceof Essentials)) {
             essentials = (Essentials) essentialsPlugin;
@@ -98,42 +98,45 @@ public final class Managerapi extends JavaPlugin {
 
         //Creates the API connection for the chat system
         try {
-            chatApi.createSocketConnection();
+            ChatApi.createSocketConnection();
         } catch (IOException | WebSocketException | JSONException e) {
             e.printStackTrace();
         }
 
-        for(Player p: Bukkit.getOnlinePlayers()){
+        if(statusController.globalPlayerList){
+            for(Player p: Bukkit.getOnlinePlayers()){
+                try {
+                    ChatApi.addPlayer(p);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
             try {
-                chatApi.addPlayer(p);
+                ChatApi.syncPlayerLists();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        try {
-            chatApi.syncPlayerLists();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
 
         //Registers commands
-        getCommand("chatcommand").setExecutor(new globalchatcommand());
-        getCommand("managerapireload").setExecutor(new reloadCommand());
-        getCommand("staff").setExecutor(new globalStaffCommand());
-        getCommand("playerinfo").setExecutor(new playerInfoCommand());
-        getCommand("gchat").setExecutor(new globalChatStatusCommand());
-        getCommand("globalcommand").setExecutor(new globalCommand());
-        getCommand("togglealtchannels").setExecutor(new toggleChannels());
-        getCommand("viewOnline").setExecutor(new viewOnlinePlayers());
+        getCommand("chatcommand").setExecutor(new Globalchatcommand());
+        getCommand("managerapireload").setExecutor(new ReloadCommand());
+        getCommand("staff").setExecutor(new GlobalStaffCommand());
+        getCommand("playerinfo").setExecutor(new PlayerInfoCommand());
+        getCommand("gchat").setExecutor(new GlobalChatStatusCommand());
+        getCommand("globalcommand").setExecutor(new GlobalCommand());
+        getCommand("togglealtchannels").setExecutor(new ToggleChannels());
+        getCommand("viewOnline").setExecutor(new ViewOnlinePlayers());
 
         //assigns the tab complete classes
-        getCommand("gchat").setTabCompleter(new globalchatStatusTabComplete());
+        getCommand("gchat").setTabCompleter(new GlobalchatStatusTabComplete());
 
         //Registers Listeners
-        getServer().getPluginManager().registerEvents(new chatEvent(), this);
-        getServer().getPluginManager().registerEvents(new joinEvent(), this);
-        getServer().getPluginManager().registerEvents(new leaveEvent(), this);
-        getServer().getPluginManager().registerEvents(new commandEvent(),this);
+        getServer().getPluginManager().registerEvents(new ChatEventHandler(), this);
+        getServer().getPluginManager().registerEvents(new JoinEventHandler(), this);
+        getServer().getPluginManager().registerEvents(new LeaveEventHandler(), this);
+        getServer().getPluginManager().registerEvents(new CommandEventHandler(),this);
 
         //Prints to console that the plugin is online
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[ManagerApi]: The Plugin is online");
@@ -145,17 +148,20 @@ public final class Managerapi extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
 
-        for(Player p: Bukkit.getOnlinePlayers()){
-            try {
-                chatApi.removePlayer(p);
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if(statusController.globalPlayerList){
+            for(Player p: Bukkit.getOnlinePlayers()){
+                try {
+                    ChatApi.removePlayer(p);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
+
         //Closes the API connection
         try {
-            chatApi.closeConn();
+            ChatApi.closeConn();
         } catch (JSONException e) {
             e.printStackTrace();
             Bukkit.getConsoleSender().sendMessage("[ManagerAPI]: "+ChatColor.RED + "Websocket disconnect failed!");
@@ -169,26 +175,26 @@ public final class Managerapi extends JavaPlugin {
     }
     public Chat getChatInstance(){ return chat;}
     public Permission getPermission(){return  permission;}
-    public statusController getStatusController(){return statusController;}
+    public StatusController getStatusController(){return statusController;}
     public Essentials getEssentials(){
         return essentials;
     }
     public channelListeners getChannelListeners(){return channelListeners;}
-    public globalPlayers getGlobalPlayers(){
+    public GlobalPlayers getGlobalPlayers(){
         return globalPlayers;
     }
-    public globalServers getGlobalServers(){
+    public GlobalServers getGlobalServers(){
         return globalServers;
     }
-    public globalChat getGlobalChat(){
+    public me.bdx.managerapi.GlobalChat getGlobalChat(){
         return GlobalChat;
     }
-    public playerHelper getPlayerHelper(){
+    public me.bdx.managerapi.utils.PlayerHelper getPlayerHelper(){
         return PlayerHelper;
     }
-    public actionbar getActionbarHelper(){
+    public ActionbarHelper getActionbarHelper(){
         return actionbarHelper;
     }
-    public chatApi getChatapi(){ return chatapi; }
+    public ChatApi getChatapi(){ return chatapi; }
 
 }

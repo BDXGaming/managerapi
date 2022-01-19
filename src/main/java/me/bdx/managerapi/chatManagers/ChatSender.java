@@ -1,6 +1,6 @@
 package me.bdx.managerapi.chatManagers;
 
-import me.bdx.managerapi.api.chatApi;
+import me.bdx.managerapi.api.ChatApi;
 
 public class ChatSender {
 
@@ -31,7 +31,7 @@ public class ChatSender {
     }
 
     public void sendGlobalMessage(String message) throws Exception {
-        chatApi.sendCustomMsg(this.Name, this.DisplayName, message, "chat-g", "g", chatcolor);
+        ChatApi.sendCustomMsg(this.Name, this.DisplayName, message, "chat-g", "g", chatcolor);
     }
 
 }
