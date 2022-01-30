@@ -1,0 +1,3 @@
+name: Managerapi
+version: ${project.version}
+main: me.bdx.managerapi.ManagerapiBungee
