@@ -30,7 +30,15 @@ public class ManagerapiBungee extends Plugin {
         getProxy().getConsole().sendMessage(new TextComponent("[Managerapi]: "+ChatColor.RED + "Plugin has been disabled!"));
     }
 
+    /**
+     * Gets the instance of the ManagerapiBungee class
+     * @return ManagerapiBungee instance
+     */
     public static ManagerapiBungee getInstance(){
+
+        if(managerapiBungee == null){
+            return null;
+        }
         return managerapiBungee;
     }
 }
