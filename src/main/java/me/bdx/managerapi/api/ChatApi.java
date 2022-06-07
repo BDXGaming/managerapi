@@ -481,8 +481,8 @@ public class ChatApi {
                 .toString();
 
         Managerapi.managerapi.getChatapi().send(jsonMsg);
-        ws.disconnect();
-        ws.sendClose();
+//        ws.disconnect();
+//        ws.sendClose();
     }
 
     /**

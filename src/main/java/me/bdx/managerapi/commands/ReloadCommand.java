@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -37,36 +38,43 @@ public class ReloadCommand implements CommandExecutor {
                 e.printStackTrace();
             }
 
-            //Gets the updated instance of the Config File
-            Managerapiconfig.reload();
+            //Sets up the config files for the plugin
+            Managerapiconfig.setup();
+
             //Reloads the stored values for the chatStatus trackers
             ChatStatus.loadFromConfig();
+
             //Reloads the stored values for general statusController values
             Managerapi.statusController.reload();
 
-            //Creates a new socket connection
-            try {
-                ChatApi.createSocketConnection();
-            } catch (IOException | WebSocketException | JSONException e) {
-                e.printStackTrace();
-            }
+            Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(Managerapi.class), new Runnable() {
+                public void run() {
+                    //Creates a new socket connection
+                    try {
+                        ChatApi.createSocketConnection();
+                    } catch (IOException | WebSocketException | JSONException e) {
+                        e.printStackTrace();
+                    }
 
-            //Adds all online players to the online player list
-            for(Player p: Bukkit.getOnlinePlayers()){
-                try {
-                    ChatApi.addPlayer(p);
+                    //Adds all online players to the online player list
+                    for(Player p: Bukkit.getOnlinePlayers()){
+                        try {
+                            ChatApi.addPlayer(p);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //Ensures that playerlists are synced across all connected servers
+                    try {
+                        ChatApi.syncPlayerLists();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Bukkit.broadcast(ChatColor.RED + "[ManagerAPI]:"+ChatColor.GREEN+" Reload Complete", "managerapi.reload");
+
                 }
-            }
-            //Ensures that playerlists are synced across all connected servers
-            try {
-                ChatApi.syncPlayerLists();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Bukkit.broadcast(ChatColor.RED + "[ManagerAPI]:"+ChatColor.GREEN+" Reload Complete", "managerapi.reload");
+            }, 25L);
 
             return true;
 
